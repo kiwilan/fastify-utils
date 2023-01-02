@@ -50,6 +50,10 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@fastify/autoload": "^5.7.0",
+    "@fastify/cors": "^8.2.0",
+    "@fastify/env": "^4.2.0",
+    "@fastify/middie": "^8.1.0",
     "esbuild": "^0.16.12",
     "esbuild-plugin-pino": "^1.2.8",
     "fastify": "^4.10.2",
