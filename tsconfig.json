@@ -9,7 +9,7 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "allowJs": true,
+    "noEmit": true,
     "paths": {
       "@": ["./"],
       "@/*": ["./*"]

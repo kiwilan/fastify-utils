@@ -1,8 +1,8 @@
 import fs from 'fs'
 import { join } from 'path'
-import { readFile, writeFile } from 'fs/promises'
 import type { DotenvConfig, DotenvSystemConfig, LogLevel, NodeEnv } from '../types/dotenv'
 import { DotEnvEnum } from '../types/dotenv'
+import Utils from './Utils'
 
 interface ISchema {
   type: 'object'
@@ -64,39 +64,16 @@ export default class Dotenv {
     raw = raw.filter(el => el)
 
     const type = join(__dirname, 'index.d.ts')
-    const dotenvList = raw.map(el => `${el} = 0,`).join('\n')
-    Dotenv.replaceInFile(
-      type,
-      'SAMPLE_DOTENV = 0',
-      dotenvList,
-    )
+    if (Utils.checkIfExists(type)) {
+      const dotenvList = raw.map(el => `${el} = 0,`).join('\n')
+      Utils.replaceInFile(
+        type,
+        'SAMPLE_DOTENV = 0',
+        dotenvList,
+      )
+    }
 
     return raw
-  }
-
-  private static async replaceInFile(path: string, str: string, replace: string) {
-    try {
-      const data = await readFile(path, 'utf8')
-      const result = data.replace(str, replace)
-      await writeFile(path, result, 'utf8')
-    }
-    catch (error) {
-      console.warn(error)
-      throw new Error('replaceInFile error')
-    }
-  }
-
-  private static async checkIfContainsAsync(path: string, str: string): Promise<boolean> {
-    try {
-      const contents = await readFile(path, 'utf-8')
-      const result = contents.includes(str)
-
-      return result
-    }
-    catch (err) {
-      console.warn(err)
-      throw new Error('checkIfContainsAsync error')
-    }
   }
 
   private static setProperties(): string[] {
@@ -120,14 +97,17 @@ export default class Dotenv {
         const key = split[0] as keyof DotenvConfig | string
         let value = split[1] || undefined
 
-        if (!Object.keys(DotEnvEnum).includes(key))
-          return
+        // if (!Object.keys(DotEnvEnum).includes(key))
+        //   return
 
         if (value?.includes('#'))
           value = value.split('#')[0].trim()
 
         if (key?.startsWith('#'))
           value = undefined
+
+        if (key?.includes(' '))
+          return
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error

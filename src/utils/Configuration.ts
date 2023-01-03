@@ -1,18 +1,28 @@
 import { join } from 'path'
+import { statSync } from 'fs'
 import type { FastifyInstance, FastifyRegisterOptions } from 'fastify'
 import type { FastifyEnvOptions } from '@fastify/env'
 import fastifyEnv from '@fastify/env'
 import { fastifyAutoload } from '@fastify/autoload'
 import middie from '@fastify/middie'
 import cors from '@fastify/cors'
+import Fastify from 'fastify'
 import Dotenv from './Dotenv'
 import Middleware from './Middleware'
 
 type Register = 'plugins' | 'routes' | 'middlewares' | 'cors'
-type Callback = (dotenv: Dotenv) => Promise<void>
+type BeforeStart = (fastify: FastifyInstance, dotenv: Dotenv) => Promise<void>
+type AfterStart = (dotenv: Dotenv) => Promise<void>
+
+interface Options {
+  beforeStart?: BeforeStart
+  afterStart?: AfterStart
+  register?: Register[]
+}
 
 export default class Configuration {
   protected constructor(
+    protected fastify: FastifyInstance,
     protected options: FastifyRegisterOptions<FastifyEnvOptions> | undefined,
   ) {
   }
@@ -20,7 +30,11 @@ export default class Configuration {
   public static make(): Configuration {
     const dotenv = Dotenv.make()
 
-    const config = new Configuration({
+    const fastify = Fastify({
+      logger: Configuration.logger(),
+      ignoreTrailingSlash: true,
+    })
+    const config = new Configuration(fastify, {
       confKey: 'config',
       schema: dotenv.getSchema(),
       data: process.env,
@@ -30,28 +44,35 @@ export default class Configuration {
     return config
   }
 
-  public async start(fastify: FastifyInstance, callback?: Callback, register: Register[] = ['cors', 'middlewares', 'plugins', 'routes']) {
-    try {
-      await fastify.register(fastifyEnv, this.options)
+  public async start(options: Options = {}) {
+    if (!options.register?.length)
+      options.register = ['cors', 'middlewares', 'plugins', 'routes']
 
-      if (register.includes('plugins')) {
-        await fastify.register(fastifyAutoload, {
+    try {
+      await this.fastify.register(fastifyEnv, this.options)
+      const dotenv = Dotenv.make()
+
+      if (options.beforeStart)
+        await options.beforeStart(this.fastify, dotenv)
+
+      if (options.register.includes('plugins') && this.checkDirExists('plugins')) {
+        await this.fastify.register(fastifyAutoload, {
           dir: join(__dirname, 'plugins'),
         })
       }
 
-      if (register.includes('routes')) {
-        await fastify.register(fastifyAutoload, {
+      if (options.register.includes('routes') && this.checkDirExists('routes')) {
+        await this.fastify.register(fastifyAutoload, {
           dir: join(__dirname, 'routes'),
         })
       }
 
-      if (register.includes('middlewares')) {
-        await fastify.register(middie, {
+      if (options.register.includes('middlewares')) {
+        await this.fastify.register(middie, {
           hook: 'onRequest',
         })
 
-        fastify.addHook('onRequest', async (request, reply) => {
+        this.fastify.addHook('onRequest', async (request, reply) => {
           const instance = Middleware.make(request, reply)
 
           if (instance.abort) {
@@ -65,12 +86,10 @@ export default class Configuration {
         })
       }
 
-      await fastify.after()
+      await this.fastify.after()
 
-      const dotenv = Dotenv.make()
-
-      if (register.includes('cors')) {
-        await fastify.register(cors, {
+      if (options.register.includes('cors')) {
+        await this.fastify.register(cors, {
           origin: dotenv.origin,
           methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
           allowedHeaders: ['Content-Type', 'Accept', 'Origin', 'Authorization', 'X-Requested-With', 'Access-Control-Allow-Origin'],
@@ -79,20 +98,20 @@ export default class Configuration {
         })
       }
 
-      await fastify.listen({ port: dotenv.system.PORT })
+      await this.fastify.listen({ port: dotenv.system.PORT })
 
       console.warn(`Server listening on ${dotenv.system.API_URL}`)
 
-      if (callback)
-        await callback(dotenv)
+      if (options.afterStart)
+        await options.afterStart(dotenv)
     }
     catch (error) {
-      fastify.log.error(error)
+      this.fastify.log.error(error)
       process.exit(1)
     }
   }
 
-  public logger() {
+  private static logger() {
     const config = Dotenv.make()
     const logger = process.env.NODE_ENV_LOG === 'production'
       ? { level: config.data.LOG_LEVEL }
@@ -110,5 +129,15 @@ export default class Configuration {
         }
 
     return logger
+  }
+
+  private checkDirExists(dir: string): boolean {
+    try {
+      return statSync(dir).isDirectory()
+    }
+    catch (error) {
+      console.warn(`Directory ${dir} does not exist`)
+      return false
+    }
   }
 }

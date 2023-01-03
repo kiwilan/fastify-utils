@@ -4,6 +4,7 @@
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "homepage": "https://github.com/kiwilan/vite-plugin-laravel-steward",
   "repository": {
     "type": "git",
@@ -18,28 +19,20 @@
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.js"
-    },
-    "./build.js": {
-      "import": "./src/build/build.js",
-      "require": "./src/build/build.js"
-    },
-    "./build.ts": {
-      "import": "./src/build/esbuild.ts",
-      "require": "./src/build/esbuild.ts"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "lib",
-    "dist"
+    "dist",
+    "src/tsconfig.json"
   ],
   "directories": {
     "dist": "dist",
-    "lib": "lib"
+    "src": "src"
   },
   "scripts": {
     "build": "tsup --clean",
