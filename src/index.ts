@@ -1,7 +1,8 @@
 import { BuildPackage, Dotenv, Http, Middleware, Router, Server, Ssh } from './fastify'
 import { FileUtils } from './utils'
 
-export * as Typed from './types'
+export * from './types/dotenv'
+export * from './types/router'
 
 export {
   BuildPackage,

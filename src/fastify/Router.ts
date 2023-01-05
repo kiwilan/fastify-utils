@@ -1,4 +1,5 @@
 import type { FastifyPluginAsync, FastifyReply, FastifyRequest, HTTPMethods } from 'fastify'
+import { EndpointEnum } from '../types/router'
 import type { Endpoint, IRoute } from '../types/router'
 import Dotenv from './Dotenv'
 
@@ -9,6 +10,15 @@ interface CreateRoute {
 }
 
 export default class Router {
+  public static list() {
+    const routes: string[] = []
+    Object.keys(EndpointEnum).forEach((key) => {
+      routes.push(key)
+    })
+
+    return routes
+  }
+
   /**
    * Create route from `Endpoint`
    */

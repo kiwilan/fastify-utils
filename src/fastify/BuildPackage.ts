@@ -82,13 +82,14 @@ export default class BuildPackage {
 
     const type = join(FileUtils.dirname, 'index.d.ts')
     if (FileUtils.checkIfExists(type)) {
-      const formatList = routes.map(el => `'${el}'`).join(' | ')
-      console.log(`type Endpoint = ${formatList};`)
+      const endpointList = routes.map(el => `'${el}' = 0,`).join('\n')
+      console.log(endpointList)
+
       FileUtils.replaceInFile(
         type,
         // eslint-disable-next-line @typescript-eslint/quotes
-        `type Endpoint = '/';`,
-        `type Endpoint = ${formatList};`,
+        `'/' = 0`,
+        endpointList,
       )
     }
 
