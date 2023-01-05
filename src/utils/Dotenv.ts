@@ -63,7 +63,7 @@ export default class Dotenv {
     let raw = fs.readFileSync(file).toString().split('\n')
     raw = raw.filter(el => el)
 
-    const type = join(__dirname, 'index.d.ts')
+    const type = join(Utils.dirname, 'index.d.ts')
     if (Utils.checkIfExists(type)) {
       const dotenvList = raw.map(el => `${el} = 0,`).join('\n')
       Utils.replaceInFile(

@@ -5,6 +5,7 @@ import Utils from './Utils'
 
 export default class BuildPackage {
   public static make() {
+    BuildPackage.tsconfig()
     const config = async () => {
       const entryPoints = await glob('src/**/*.ts')
 
@@ -63,6 +64,9 @@ export default class BuildPackage {
           '@/*': ['./*'],
         },
       },
+      include: [
+        'src/**/*.ts',
+      ],
     }
 
     const rootConfig = {
@@ -73,8 +77,8 @@ export default class BuildPackage {
     const directory = path.split('/').slice(0, -1).join('/')
     await Utils.createDirIfNotExists(directory)
     await Utils.createNewFile(path, JSON.stringify(config, null, 2))
-    if (!Utils.checkIfExists('.tsconfig.json'))
-      await Utils.createNewFile('.tsconfig.json', JSON.stringify(rootConfig, null, 2))
+    if (!Utils.checkIfExists('tsconfig.json'))
+      await Utils.createNewFile('tsconfig.json', JSON.stringify(rootConfig, null, 2))
     Utils.addToGitIgnore(directory)
 
     return config

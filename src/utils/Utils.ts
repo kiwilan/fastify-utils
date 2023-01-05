@@ -1,7 +1,22 @@
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'fs'
 import { mkdir, readFile, writeFile } from 'fs/promises'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 export default class Utils {
+  public static dirname = fileURLToPath(new URL('.', import.meta.url))
+  public static getFilename(metaUrl: string): string {
+    const __filename = fileURLToPath(metaUrl)
+
+    return __filename
+  }
+
+  public static getDirname(metaUrl: string): string {
+    const __dirname = path.dirname(Utils.getFilename(metaUrl))
+
+    return __dirname
+  }
+
   public static async createDirIfNotExists(path: string) {
     try {
       if (!existsSync(path))
