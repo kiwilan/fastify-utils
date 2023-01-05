@@ -1,17 +1,15 @@
-import Http from './utils/Http'
-import Configuration from './utils/Configuration'
-import Dotenv from './utils/Dotenv'
-import Middleware from './utils/Middleware'
-import SSH from './utils/SSH'
-import BuildPackage from './utils/BuildPackage'
+import { BuildPackage, Dotenv, Http, Middleware, Router, Server, Ssh } from './fastify'
+import { FileUtils } from './utils'
 
-export * from './types/dotenv'
+export * as Typed from './types'
 
 export {
-  Http,
-  Configuration,
-  Dotenv,
-  Middleware,
-  SSH,
   BuildPackage,
+  Dotenv,
+  Http,
+  Middleware,
+  Server,
+  Ssh,
+  Router,
+  FileUtils,
 }

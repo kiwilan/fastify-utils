@@ -21,6 +21,10 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js"
+    },
+    "./syn": {
+      "import": "./dist/syn.js",
+      "require": "./dist/syn.js"
     }
   },
   "main": "./dist/index.js",
@@ -34,7 +38,7 @@
     "src": "src"
   },
   "bin": {
-    "syn": "./src/syn.js"
+    "syn": "./dist/syn.js"
   },
   "scripts": {
     "build": "tsup --clean",
@@ -43,7 +47,8 @@
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "syn": "./src/syn.js"
+    "syn": "./src/syn.js",
+    "package": "pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-0.0.1.tgz ~/kiwilan-fastify-utils-0.0.1.tgz"
   },
   "dependencies": {
     "@fastify/autoload": "^5.7.0",

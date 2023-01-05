@@ -1,5 +1,3 @@
-import { join } from 'path'
-import { statSync } from 'fs'
 import type { FastifyInstance, FastifyRegisterOptions } from 'fastify'
 import type { FastifyEnvOptions } from '@fastify/env'
 import fastifyEnv from '@fastify/env'
@@ -7,6 +5,7 @@ import { fastifyAutoload } from '@fastify/autoload'
 import middie from '@fastify/middie'
 import cors from '@fastify/cors'
 import Fastify from 'fastify'
+import { FileUtils } from '../utils'
 import Dotenv from './Dotenv'
 import Middleware from './Middleware'
 
@@ -20,21 +19,21 @@ interface Options {
   register?: Register[]
 }
 
-export default class Configuration {
+export default class Server {
   protected constructor(
     protected fastify: FastifyInstance,
     protected options: FastifyRegisterOptions<FastifyEnvOptions> | undefined,
   ) {
   }
 
-  public static make(): Configuration {
+  public static make(): Server {
     const dotenv = Dotenv.make()
 
     const fastify = Fastify({
-      logger: Configuration.logger(),
+      logger: Server.logger(),
       ignoreTrailingSlash: true,
     })
-    const config = new Configuration(fastify, {
+    const config = new Server(fastify, {
       confKey: 'config',
       schema: dotenv.getSchema(),
       data: process.env,
@@ -48,6 +47,9 @@ export default class Configuration {
     if (!options.register?.length)
       options.register = ['cors', 'middlewares', 'plugins', 'routes']
 
+    const pluginsDir = FileUtils.getFromRoot('src/plugins')
+    const routesDir = FileUtils.getFromRoot('src/routes')
+
     try {
       await this.fastify.register(fastifyEnv, this.options)
       const dotenv = Dotenv.make()
@@ -55,15 +57,15 @@ export default class Configuration {
       if (options.beforeStart)
         await options.beforeStart(this.fastify, dotenv)
 
-      if (options.register.includes('plugins') && this.checkDirExists('plugins')) {
+      if (options.register.includes('plugins') && FileUtils.checkDirExists(pluginsDir)) {
         await this.fastify.register(fastifyAutoload, {
-          dir: join(__dirname, 'plugins'),
+          dir: pluginsDir,
         })
       }
 
-      if (options.register.includes('routes') && this.checkDirExists('routes')) {
+      if (options.register.includes('routes') && FileUtils.checkDirExists(routesDir)) {
         await this.fastify.register(fastifyAutoload, {
-          dir: join(__dirname, 'routes'),
+          dir: routesDir,
         })
       }
 
@@ -129,15 +131,5 @@ export default class Configuration {
         }
 
     return logger
-  }
-
-  private checkDirExists(dir: string): boolean {
-    try {
-      return statSync(dir).isDirectory()
-    }
-    catch (error) {
-      console.warn(`Directory ${dir} does not exist`)
-      return false
-    }
   }
 }

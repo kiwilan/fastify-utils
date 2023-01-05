@@ -1,6 +1,5 @@
 export type NodeEnv = 'development' | 'test' | 'production'
 export type LogLevel = 'debug' | 'error' | 'fatal' | 'info' | 'trace' | 'warn' | 'silent'
-
 interface DotEnvConfigBase {
   NODE_ENV?: string
   LOG_LEVEL?: string

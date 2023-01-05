@@ -1,10 +1,16 @@
-import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'fs'
+import { appendFileSync, existsSync, readFileSync, statSync, writeFileSync } from 'fs'
 import { mkdir, readFile, writeFile } from 'fs/promises'
-import path from 'path'
+import path, { join } from 'path'
 import { fileURLToPath } from 'url'
 
-export default class Utils {
+export default class FileUtils {
+  public static root = process.cwd()
   public static dirname = fileURLToPath(new URL('.', import.meta.url))
+
+  public static getFromRoot(path: string): string {
+    return join(FileUtils.root, path)
+  }
+
   public static getFilename(metaUrl: string): string {
     const __filename = fileURLToPath(metaUrl)
 
@@ -12,7 +18,7 @@ export default class Utils {
   }
 
   public static getDirname(metaUrl: string): string {
-    const __dirname = path.dirname(Utils.getFilename(metaUrl))
+    const __dirname = path.dirname(FileUtils.getFilename(metaUrl))
 
     return __dirname
   }
@@ -51,6 +57,16 @@ export default class Utils {
     catch (error) {
       console.warn(error)
       throw new Error('replaceInFile error')
+    }
+  }
+
+  public static checkDirExists(dir: string): boolean {
+    try {
+      return statSync(dir).isDirectory()
+    }
+    catch (error) {
+      console.warn(`Directory ${dir} does not exist`)
+      return false
     }
   }
 

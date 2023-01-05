@@ -2,7 +2,6 @@ import fs from 'fs'
 import { join } from 'path'
 import type { DotenvConfig, DotenvSystemConfig, LogLevel, NodeEnv } from '../types/dotenv'
 import { DotEnvEnum } from '../types/dotenv'
-import Utils from './Utils'
 
 interface ISchema {
   type: 'object'
@@ -14,7 +13,6 @@ interface ISchema {
 
 export default class Dotenv {
   protected constructor(
-    public definition: string[],
     public properties: string[],
     public data: DotenvConfig,
     public system: DotenvSystemConfig,
@@ -23,7 +21,6 @@ export default class Dotenv {
   }
 
   public static make(): Dotenv {
-    const definition = Dotenv.getDefinition()
     const properties = Dotenv.setProperties()
     const data = Dotenv.setData()
 
@@ -42,7 +39,7 @@ export default class Dotenv {
       API_DOMAINS_PARSED: [],
       API_DOMAINS_ALL: false,
     }
-    const dotenv = new Dotenv(definition, properties, data, system)
+    const dotenv = new Dotenv(properties, data, system)
 
     system.API_DOMAINS = dotenv.domainsDotenv()
     system.API_DOMAINS_PARSED = dotenv.domainsParsed()
@@ -51,29 +48,6 @@ export default class Dotenv {
     dotenv.origin = system.API_DOMAINS_ALL ? '*' : system.API_DOMAINS_PARSED
 
     return dotenv
-  }
-
-  private static getDefinition(): string[] {
-    const root = process.cwd()
-    const file = join(root, 'src/dotenv')
-
-    if (!fs.existsSync(file))
-      throw new Error('File dotenv not found')
-
-    let raw = fs.readFileSync(file).toString().split('\n')
-    raw = raw.filter(el => el)
-
-    const type = join(Utils.dirname, 'index.d.ts')
-    if (Utils.checkIfExists(type)) {
-      const dotenvList = raw.map(el => `${el} = 0,`).join('\n')
-      Utils.replaceInFile(
-        type,
-        'SAMPLE_DOTENV = 0',
-        dotenvList,
-      )
-    }
-
-    return raw
   }
 
   private static setProperties(): string[] {

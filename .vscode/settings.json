@@ -23,11 +23,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": [
-    "javascript",
-    "js",
-    "html",
-    "typescript",
-    "vue"
-  ]
+  "eslint.validate": ["javascript", "js", "html", "typescript", "vue"]
 }
