@@ -1,6 +1,6 @@
 import type { FastifyPluginAsync, FastifyReply, FastifyRequest, HTTPMethods } from 'fastify'
-import { EndpointEnum } from '../types/router'
-import type { Endpoint, IRoute } from '../types/router'
+import { EndpointEnum } from '../types'
+import type { Endpoint, IRoute } from '../types'
 import Dotenv from './Dotenv'
 
 interface CreateRoute {
@@ -86,7 +86,7 @@ export default class Router {
     const baseURL = dotenv.data.BASE_URL || ''
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const url = req.url.replace(baseURL, '').replace(/\/$/, '')
-    const route: IRoute = { endpoint: '/' }
+    const route: IRoute = { endpoint: 'SAMPLE_ENDPOINT' }
 
     // const splitted = url.split('?')
     // if (splitted.length === 1) {

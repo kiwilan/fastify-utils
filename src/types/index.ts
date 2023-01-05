@@ -24,3 +24,13 @@ export interface DotenvSystemConfig {
   API_DOMAINS_PARSED: string[]
   API_DOMAINS_ALL: boolean
 }
+
+export enum EndpointEnum {
+  SAMPLE_ENDPOINT = 0,
+}
+export type Endpoint = keyof typeof EndpointEnum
+
+export interface IRoute {
+  endpoint: Endpoint
+  query?: Record<string, string | undefined>
+}

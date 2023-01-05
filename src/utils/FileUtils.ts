@@ -1,6 +1,5 @@
-import { appendFileSync, existsSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { mkdir, readFile, writeFile } from 'fs/promises'
-import path, { join } from 'path'
+import { appendFileSync, existsSync, mkdir, readFile, readFileSync, readdir, statSync, writeFile, writeFileSync } from 'fs'
+import path, { extname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 export default class FileUtils {
@@ -9,6 +8,10 @@ export default class FileUtils {
 
   public static getFromRoot(path: string): string {
     return join(FileUtils.root, path)
+  }
+
+  public static getFromPackage(path: string): string {
+    return join(FileUtils.dirname, path)
   }
 
   public static getFilename(metaUrl: string): string {
@@ -23,41 +26,66 @@ export default class FileUtils {
     return __dirname
   }
 
-  public static async createDirIfNotExists(path: string) {
-    try {
-      if (!existsSync(path))
-        await mkdir(path, { recursive: true })
-    }
-    catch (error) {
-      console.warn(error)
-      throw new Error('createDirIfNotExists error')
+  public static createDirIfNotExists(path: string) {
+    if (!existsSync(path)) {
+      mkdir(path, { recursive: true }, (err) => {
+        if (err) {
+          console.warn(err)
+          throw new Error('createDirIfNotExists error')
+        }
+      })
     }
   }
 
-  public static async createNewFile(path: string, content: string) {
-    try {
-      await writeFile(path, content, 'utf8')
-    }
-    catch (error) {
-      console.warn(error)
-      throw new Error('createNewFile error')
-    }
+  public static createNewFile(path: string, content: string) {
+    writeFile(path, content, 'utf8', (err) => {
+      if (err) {
+        console.warn(err)
+        throw new Error('createNewFile error')
+      }
+    })
+  }
+
+  public static readFile(path: string, callback?: (data: string) => void): void {
+    readFile(path, 'utf8', (err, data) => {
+      if (err) {
+        console.warn(err)
+        throw new Error('readFile error')
+      }
+
+      if (callback)
+        callback(data)
+    })
+  }
+
+  public static readDir(path: string, callback?: (files: string[]) => void, extension?: string): void {
+    readdir(path, (err, files) => {
+      if (err) {
+        console.warn(err)
+        throw new Error('readDir error')
+      }
+
+      if (extension)
+        files = files.filter(e => extname(e).toLowerCase() === `.${extension}`)
+
+      if (callback)
+        callback(files)
+    })
   }
 
   public static checkIfExists(path: string): boolean {
     return existsSync(path)
   }
 
-  public static async replaceInFile(path: string, str: string, replace: string) {
-    try {
-      const data = await readFile(path, 'utf8')
-      const result = data.replace(str, replace)
-      await writeFile(path, result, 'utf8')
-    }
-    catch (error) {
-      console.warn(error)
-      throw new Error('replaceInFile error')
-    }
+  public static replaceInFile(path: string, str: string, replace: string) {
+    if (!FileUtils.checkIfExists(path))
+      throw new Error('replaceInFile File not found')
+
+    FileUtils.replaceInFile(
+      path,
+      str,
+      replace,
+    )
   }
 
   public static checkDirExists(dir: string): boolean {
@@ -70,20 +98,16 @@ export default class FileUtils {
     }
   }
 
-  public static async checkIfContainsAsync(path: string, str: string): Promise<boolean> {
-    try {
-      const contents = await readFile(path, 'utf-8')
-      const result = contents.includes(str)
+  public static checkIfContainsAsync(path: string, str: string): boolean {
+    let result = false
+    FileUtils.readFile(path, (data) => {
+      result = data.includes(str)
+    })
 
-      return result
-    }
-    catch (err) {
-      console.warn(err)
-      throw new Error('checkIfContainsAsync error')
-    }
+    return result
   }
 
-  public static async addToGitIgnore(ignore: string, path = '.gitignore') {
+  public static addToGitIgnore(ignore: string, path = '.gitignore') {
     const addToFile = (path: string, content: string): void => {
       const inputData = readFileSync(path).toString()
       if (!inputData.includes(content))

@@ -1,6 +1,5 @@
-import { extname, join } from 'path'
+import { join } from 'path'
 import { existsSync, readFileSync } from 'fs'
-import { readdir } from 'fs/promises'
 import glob from 'tiny-glob'
 import type { BuildResult } from 'esbuild'
 import { build } from 'esbuild'
@@ -20,7 +19,7 @@ export default class BuildPackage {
 
     if (isDev) {
       build.definitions = build.setDotenv()
-      build.routes = await build.setRoutes()
+      build.setRoutes()
     }
     else {
       build.config = await build.setEsbuild()
@@ -37,61 +36,52 @@ export default class BuildPackage {
     let raw = readFileSync(file).toString().split('\n')
     raw = raw.filter(el => el)
 
-    const type = join(FileUtils.dirname, 'index.d.ts')
-    if (FileUtils.checkIfExists(type)) {
-      const dotenvList = raw.map(el => `${el} = 0,`).join('\n')
-      FileUtils.replaceInFile(
-        type,
-        'SAMPLE_DOTENV = 0',
-        dotenvList,
-      )
-    }
+    FileUtils.replaceInFile(
+      FileUtils.getFromPackage('index.d.ts'),
+      'SAMPLE_DOTENV = 0',
+      raw.map(el => `${el} = 0,`).join('\n'),
+    )
 
     return raw
   }
 
-  private async setRoutes(): Promise<string[]> {
+  private setRoutes(): string[] {
     const root = process.cwd()
     const routesRaw = join(root, 'src/routes')
 
     if (!existsSync(routesRaw))
       console.warn('`src/routes` not found')
 
-    const files = await readdir(routesRaw)
-    const list = files.filter(e => extname(e).toLowerCase() === '.ts')
-
     const routes: string[] = []
-    list.forEach((element) => {
-      let name = element.split('.')[0]
-      const params = name.includes('_') ? name.split('_') : []
-      if (params.length)
-        name = params.shift() || element
+    FileUtils.readDir(routesRaw, (files) => {
+      const routes: string[] = []
+      files.forEach((element) => {
+        let name = element.split('.')[0]
+        const params = name.includes('_') ? name.split('_') : []
+        if (params.length)
+          name = params.shift() || element
 
-      let routeName = `/${name}`
-      if (routeName === '/root')
-        routeName = '/'
+        let routeName = `/${name}`
+        if (routeName === '/root')
+          routeName = '/'
 
-      if (params.length) {
-        params.forEach((param) => {
-          routeName += `/:${param}`
-        })
-      }
+        if (params.length) {
+          params.forEach((param) => {
+            routeName += `/:${param}`
+          })
+        }
 
-      routes.push(routeName)
-    })
-
-    const type = join(FileUtils.dirname, 'index.d.ts')
-    if (FileUtils.checkIfExists(type)) {
-      const endpointList = routes.map(el => `'${el}' = 0,`).join('\n')
-      console.log(endpointList)
+        routes.push(routeName)
+      })
 
       FileUtils.replaceInFile(
-        type,
-        // eslint-disable-next-line @typescript-eslint/quotes
-        `'/' = 0`,
-        endpointList,
+        FileUtils.getFromPackage('index.d.ts'),
+        'SAMPLE_ENDPOINT = 0',
+        routes.map(el => `'${el}' = 0,`).join('\n'),
       )
-    }
+
+      this.routes = routes
+    }, 'ts')
 
     return routes
   }
@@ -166,10 +156,10 @@ export default class BuildPackage {
     }
 
     const directory = path.split('/').slice(0, -1).join('/')
-    await FileUtils.createDirIfNotExists(directory)
-    await FileUtils.createNewFile(path, JSON.stringify(config, null, 2))
+    FileUtils.createDirIfNotExists(directory)
+    FileUtils.createNewFile(path, JSON.stringify(config, null, 2))
     if (!FileUtils.checkIfExists('tsconfig.json'))
-      await FileUtils.createNewFile('tsconfig.json', JSON.stringify(rootConfig, null, 2))
+      FileUtils.createNewFile('tsconfig.json', JSON.stringify(rootConfig, null, 2))
     FileUtils.addToGitIgnore(directory)
   }
 }

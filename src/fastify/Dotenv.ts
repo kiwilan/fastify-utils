@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { join } from 'path'
-import type { DotenvConfig, DotenvSystemConfig, LogLevel, NodeEnv } from '../types/dotenv'
-import { DotEnvEnum } from '../types/dotenv'
+import type { DotenvConfig, DotenvSystemConfig, LogLevel, NodeEnv } from '../types'
+import { DotEnvEnum } from '../types'
 
 interface ISchema {
   type: 'object'
