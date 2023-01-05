@@ -6,6 +6,7 @@ import middie from '@fastify/middie'
 import cors from '@fastify/cors'
 import Fastify from 'fastify'
 import { FileUtils } from '../utils'
+import PathUtils from '../utils/PathUtils'
 import Dotenv from './Dotenv'
 import Middleware from './Middleware'
 
@@ -47,8 +48,8 @@ export default class Server {
     if (!options.register?.length)
       options.register = ['cors', 'middlewares', 'plugins', 'routes']
 
-    const pluginsDir = FileUtils.getFromRoot('src/plugins')
-    const routesDir = FileUtils.getFromRoot('src/routes')
+    const pluginsDir = PathUtils.getFromRoot('src/plugins')
+    const routesDir = PathUtils.getFromRoot('src/routes')
 
     try {
       await this.fastify.register(fastifyEnv, this.options)

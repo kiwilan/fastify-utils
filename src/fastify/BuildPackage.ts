@@ -1,10 +1,9 @@
-import { join } from 'path'
-import { existsSync, readFileSync } from 'fs'
 import glob from 'tiny-glob'
 import type { BuildResult } from 'esbuild'
 import { build } from 'esbuild'
 import esbuildPluginPino from 'esbuild-plugin-pino'
-import { FileUtils } from '../utils'
+import { FileUtils, FileUtilsPromises } from '../utils'
+import PathUtils from '../utils/PathUtils'
 
 export default class BuildPackage {
   protected constructor(
@@ -18,72 +17,70 @@ export default class BuildPackage {
     await build.createTsConfig()
 
     if (isDev) {
-      build.definitions = build.setDotenv()
-      build.setRoutes()
+      build.definitions = await build.setDotenv()
+      build.routes = await build.setRoutes()
     }
     else {
       build.config = await build.setEsbuild()
     }
   }
 
-  private setDotenv(): string[] {
-    const root = process.cwd()
-    const file = join(root, 'src/dotenv')
+  private async setDotenv(): Promise<string[]> {
+    const file = PathUtils.getFromRoot('src/dotenv')
+    const isExists = await FileUtilsPromises.checkIfFileExists(file)
 
-    if (!existsSync(file))
+    if (!isExists)
       throw new Error('File dotenv not found')
 
-    let raw = readFileSync(file).toString().split('\n')
-    raw = raw.filter(el => el)
+    const raw = await FileUtilsPromises.readFile(file)
+    let rawList = raw.toString().split('\n')
+    rawList = rawList.filter(el => el)
 
-    FileUtils.replaceInFile(
-      FileUtils.getFromPackage('index.d.ts'),
+    await FileUtilsPromises.replaceInFile(
+      PathUtils.getFromPackage('index.d.ts'),
       'SAMPLE_DOTENV = 0',
-      raw.map(el => `${el} = 0,`).join('\n'),
+      rawList.map(el => `${el} = 0,`).join('\n'),
     )
 
-    return raw
+    return rawList
   }
 
-  private setRoutes(): string[] {
-    const root = process.cwd()
-    const routesRaw = join(root, 'src/routes')
+  private async setRoutes(): Promise<string[]> {
+    const routesRaw = PathUtils.getFromRoot('src/routes')
+    const isExists = await FileUtilsPromises.checkIfDirExists(routesRaw)
 
-    if (!existsSync(routesRaw))
+    if (!isExists)
       console.warn('`src/routes` not found')
 
-    const routes: string[] = []
-    FileUtils.readDir(routesRaw, (files) => {
-      const routes: string[] = []
-      files.forEach((element) => {
-        let name = element.split('.')[0]
-        const params = name.includes('_') ? name.split('_') : []
-        if (params.length)
-          name = params.shift() || element
+    const routesList: string[] = []
+    const files = await FileUtilsPromises.readDir(routesRaw, 'ts')
 
-        let routeName = `/${name}`
-        if (routeName === '/root')
-          routeName = '/'
+    files.forEach((element) => {
+      let name = element.split('.')[0]
+      const params = name.includes('_') ? name.split('_') : []
+      if (params.length)
+        name = params.shift() || element
 
-        if (params.length) {
-          params.forEach((param) => {
-            routeName += `/:${param}`
-          })
-        }
+      let routeName = `/${name}`
+      if (routeName === '/root')
+        routeName = '/'
 
-        routes.push(routeName)
-      })
+      if (params.length) {
+        params.forEach((param) => {
+          routeName += `/:${param}`
+        })
+      }
 
-      FileUtils.replaceInFile(
-        FileUtils.getFromPackage('index.d.ts'),
-        'SAMPLE_ENDPOINT = 0',
-        routes.map(el => `'${el}' = 0,`).join('\n'),
-      )
+      routesList.push(routeName)
+    })
 
-      this.routes = routes
-    }, 'ts')
+    await FileUtilsPromises.replaceInFile(
+      PathUtils.getFromPackage('index.d.ts'),
+      'SAMPLE_ENDPOINT = 0',
+      routesList.map(el => `'${el}' = 0,`).join('\n'),
+    )
 
-    return routes
+    return routesList
   }
 
   private async setEsbuild() {
@@ -157,9 +154,9 @@ export default class BuildPackage {
 
     const directory = path.split('/').slice(0, -1).join('/')
     FileUtils.createDirIfNotExists(directory)
-    FileUtils.createNewFile(path, JSON.stringify(config, null, 2))
+    FileUtils.createFile(path, JSON.stringify(config, null, 2))
     if (!FileUtils.checkIfExists('tsconfig.json'))
-      FileUtils.createNewFile('tsconfig.json', JSON.stringify(rootConfig, null, 2))
+      FileUtils.createFile('tsconfig.json', JSON.stringify(rootConfig, null, 2))
     FileUtils.addToGitIgnore(directory)
   }
 }

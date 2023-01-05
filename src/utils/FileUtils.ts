@@ -1,31 +1,7 @@
 import { appendFileSync, existsSync, mkdir, readFile, readFileSync, readdir, statSync, writeFile, writeFileSync } from 'fs'
-import path, { extname, join } from 'path'
-import { fileURLToPath } from 'url'
+import { extname } from 'path'
 
 export default class FileUtils {
-  public static root = process.cwd()
-  public static dirname = fileURLToPath(new URL('.', import.meta.url))
-
-  public static getFromRoot(path: string): string {
-    return join(FileUtils.root, path)
-  }
-
-  public static getFromPackage(path: string): string {
-    return join(FileUtils.dirname, path)
-  }
-
-  public static getFilename(metaUrl: string): string {
-    const __filename = fileURLToPath(metaUrl)
-
-    return __filename
-  }
-
-  public static getDirname(metaUrl: string): string {
-    const __dirname = path.dirname(FileUtils.getFilename(metaUrl))
-
-    return __dirname
-  }
-
   public static createDirIfNotExists(path: string) {
     if (!existsSync(path)) {
       mkdir(path, { recursive: true }, (err) => {
@@ -37,11 +13,11 @@ export default class FileUtils {
     }
   }
 
-  public static createNewFile(path: string, content: string) {
+  public static createFile(path: string, content: string) {
     writeFile(path, content, 'utf8', (err) => {
       if (err) {
         console.warn(err)
-        throw new Error('createNewFile error')
+        throw new Error('createFile error')
       }
     })
   }
@@ -77,15 +53,26 @@ export default class FileUtils {
     return existsSync(path)
   }
 
+  public static stringExistsInFile(path: string, str: string): boolean {
+    FileUtils.readFile(path, (data) => {
+      if (!data.includes(str))
+        return false
+    })
+
+    return true
+  }
+
   public static replaceInFile(path: string, str: string, replace: string) {
     if (!FileUtils.checkIfExists(path))
-      throw new Error('replaceInFile File not found')
+      throw new Error(`replaceInFile ${path} not found`)
 
-    FileUtils.replaceInFile(
-      path,
-      str,
-      replace,
-    )
+    if (!FileUtils.stringExistsInFile(path, str))
+      throw new Error(`replaceInFile ${str} not found`)
+
+    FileUtils.readFile(path, (data) => {
+      const result = data.replace(str, replace)
+      FileUtils.createFile(path, result)
+    })
   }
 
   public static checkDirExists(dir: string): boolean {
