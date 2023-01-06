@@ -1,5 +1,6 @@
-import { appendFileSync, existsSync, mkdir, readFile, readFileSync, readdir, statSync, writeFile, writeFileSync } from 'fs'
+import { appendFileSync, createReadStream, existsSync, mkdir, readFile, readFileSync, readdir, statSync, writeFile, writeFileSync } from 'fs'
 import { extname } from 'path'
+import type { ReplaceInFileBulk } from '../types'
 
 export default class FileUtils {
   public static createDirIfNotExists(path: string) {
@@ -54,24 +55,50 @@ export default class FileUtils {
   }
 
   public static stringExistsInFile(path: string, str: string): boolean {
-    FileUtils.readFile(path, (data) => {
-      if (!data.includes(str))
-        return false
+    const stream = createReadStream(path)
+    let found = false
+
+    stream.on('data', (d) => {
+      const data = d.toString()
+      if (data.includes(str))
+        found = true
     })
 
-    return true
+    stream.on('error', (err) => {
+      console.warn(err)
+    })
+
+    stream.on('close', () => {
+      //
+    })
+
+    return found
   }
 
   public static replaceInFile(path: string, str: string, replace: string) {
     if (!FileUtils.checkIfExists(path))
-      throw new Error(`replaceInFile ${path} not found`)
+      console.warn(`replaceInFile ${path} not found`)
 
     if (!FileUtils.stringExistsInFile(path, str))
-      throw new Error(`replaceInFile ${str} not found`)
+      console.warn(`replaceInFile ${str} not found`)
 
     FileUtils.readFile(path, (data) => {
-      const result = data.replace(str, replace)
+      const result = data.replaceAll(str, replace)
       FileUtils.createFile(path, result)
+    })
+  }
+
+  public static replaceInFileBulk(fromPath: string, toPath: string, replace: ReplaceInFileBulk[]) {
+    if (!FileUtils.checkIfExists(fromPath))
+      console.warn(`replaceInFile ${fromPath} not found`)
+
+    FileUtils.readFile(fromPath, (data) => {
+      let current = data
+      replace.forEach((el) => {
+        current = current.replaceAll(el.from, el.to)
+      })
+
+      FileUtils.createFile(toPath, current)
     })
   }
 

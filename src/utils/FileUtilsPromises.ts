@@ -66,13 +66,13 @@ export default class FileUtilsPromises {
 
   public static async replaceInFile(path: string, str: string, replace: string): Promise<void> {
     const fileExists = await FileUtilsPromises.checkIfFileExists(path)
-    const stringExists = await FileUtilsPromises.stringExistsInFile(path, str)
+    const stringExists = FileUtilsPromises.stringExistsInFile(path, str)
 
-    // if (!fileExists)
-    //   throw new Error(`promise replaceInFile ${path} not found`)
+    if (!fileExists)
+      console.warn(`promise replaceInFile ${path} not found`)
 
-    // if (!stringExists)
-    //   throw new Error(`promise replaceInFile ${str} not found`)
+    if (!stringExists)
+      console.warn(`promise replaceInFile ${str} not found`)
 
     const data = await FileUtilsPromises.readFile(path)
     const result = data.replace(str, replace)

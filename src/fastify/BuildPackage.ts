@@ -4,6 +4,7 @@ import { build } from 'esbuild'
 import esbuildPluginPino from 'esbuild-plugin-pino'
 import { FileUtils, FileUtilsPromises } from '../utils'
 import PathUtils from '../utils/PathUtils'
+import type { ReplaceInFileBulk } from '../types'
 
 export default class BuildPackage {
   protected constructor(
@@ -16,13 +17,12 @@ export default class BuildPackage {
     const build = new BuildPackage()
     await build.createTsConfig()
 
-    if (isDev) {
-      build.definitions = await build.setDotenv()
-      build.routes = await build.setRoutes()
-    }
-    else {
+    build.definitions = await build.setDotenv()
+    build.routes = await build.setRoutes()
+    await build.replaceEnums()
+
+    if (!isDev)
       build.config = await build.setEsbuild()
-    }
   }
 
   private async setDotenv(): Promise<string[]> {
@@ -36,12 +36,6 @@ export default class BuildPackage {
     let rawList = raw.toString().split('\n')
     rawList = rawList.filter(el => el)
 
-    await FileUtilsPromises.replaceInFile(
-      PathUtils.getFromPackage('index.d.ts'),
-      'SAMPLE_DOTENV = 0',
-      rawList.map(el => `${el} = 0,`).join('\n'),
-    )
-
     return rawList
   }
 
@@ -52,11 +46,12 @@ export default class BuildPackage {
     if (!isExists)
       console.warn('`src/routes` not found')
 
-    const routesList: string[] = []
+    const routesList: { name: string; route: string }[] = []
     const files = await FileUtilsPromises.readDir(routesRaw, 'ts')
 
     files.forEach((element) => {
-      let name = element.split('.')[0]
+      const originalName = element.split('.')[0]
+      let name = originalName
       const params = name.includes('_') ? name.split('_') : []
       if (params.length)
         name = params.shift() || element
@@ -71,16 +66,62 @@ export default class BuildPackage {
         })
       }
 
-      routesList.push(routeName)
+      routesList.push({
+        name: originalName,
+        route: routeName,
+      })
     })
 
-    await FileUtilsPromises.replaceInFile(
-      PathUtils.getFromPackage('index.d.ts'),
-      'SAMPLE_ENDPOINT = 0',
-      routesList.map(el => `'${el}' = 0,`).join('\n'),
-    )
+    return routesList.map(el => el.route)
+  }
 
-    return routesList
+  private async replaceEnums() {
+    console.log('Replacing enums...')
+    const typesCache = PathUtils.getFromPackage('index.d.ts.cache')
+    const jsCache = PathUtils.getFromPackage('index.js.cache')
+
+    const haveTypesCache = await FileUtilsPromises.checkIfFileExists(typesCache)
+    const haveJsCache = await FileUtilsPromises.checkIfFileExists(jsCache)
+    if (!haveTypesCache) {
+      const types = await FileUtilsPromises.readFile(PathUtils.getFromPackage('index.d.ts'))
+      FileUtils.createFile(typesCache, types)
+    }
+    if (!haveJsCache) {
+      const js = await FileUtilsPromises.readFile(PathUtils.getFromPackage('index.js'))
+      FileUtils.createFile(jsCache, js)
+    }
+
+    const replaceTypes: ReplaceInFileBulk[] = [
+      {
+        from: 'SAMPLE_DOTENV = 0\n',
+        to: this.definitions.map(el => `${el} = 0,`).join('\n'),
+      },
+      {
+        from: 'SAMPLE_ENDPOINT = 0\n',
+        to: this.routes.map(el => `'${el}' = 0,`).join('\n'),
+      },
+    ]
+    FileUtils.replaceInFileBulk(typesCache, PathUtils.getFromPackage('index.d.ts'), replaceTypes)
+
+    const replaceJs: ReplaceInFileBulk[] = [
+      {
+        from: 'var DotEnvEnum = /* @__PURE__ */ ((DotEnvEnum2) => {\n',
+        to: `var DotEnvEnum = ((DotEnvEnum2) => {\n${this.definitions.map(el => `DotEnvEnum2[DotEnvEnum2["${el}"] = 0] = "${el}";`).join('\n')}`,
+      },
+      {
+        from: 'var EndpointEnum = /* @__PURE__ */ ((EndpointEnum2) => {\n',
+        to: `var EndpointEnum = ((EndpointEnum2) => {\n${this.routes.map(el => `EndpointEnum2[EndpointEnum2["${el}"] = 0] = "${el}";`).join('\n')}`,
+      },
+      {
+        from: 'DotEnvEnum2[DotEnvEnum2["SAMPLE_DOTENV"] = 0] = "SAMPLE_DOTENV";',
+        to: '',
+      },
+      {
+        from: 'EndpointEnum2[EndpointEnum2["SAMPLE_ENDPOINT"] = 0] = "SAMPLE_ENDPOINT";',
+        to: '',
+      },
+    ]
+    FileUtils.replaceInFileBulk(jsCache, PathUtils.getFromPackage('index.js'), replaceJs)
   }
 
   private async setEsbuild() {

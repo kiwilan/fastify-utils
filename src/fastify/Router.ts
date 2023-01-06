@@ -3,10 +3,12 @@ import { EndpointEnum } from '../types'
 import type { Endpoint, IRoute } from '../types'
 import Dotenv from './Dotenv'
 
+interface HttpRequest extends FastifyRequest {}
+interface HttpReply extends FastifyReply {}
 interface CreateRoute {
   endpoint: Endpoint
   method?: HTTPMethods | HTTPMethods[]
-  action?: (request: FastifyRequest, reply: FastifyReply) => Promise<any>
+  action?: (request: HttpRequest, reply: HttpReply) => Promise<any>
 }
 
 export default class Router {
@@ -15,6 +17,7 @@ export default class Router {
     Object.keys(EndpointEnum).forEach((key) => {
       routes.push(key)
     })
+    routes.shift()
 
     return routes
   }
@@ -58,7 +61,7 @@ export default class Router {
     }
 
     try {
-      const url = new URL(currentRoute, dotenv.data.BASE_URL)
+      const url = new URL(currentRoute, dotenv.system.API_URL)
 
       if (current.query) {
         Object.keys(current.query).forEach((key) => {
