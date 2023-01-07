@@ -58,17 +58,17 @@ export default class Server {
       if (options.beforeStart)
         await options.beforeStart(this.fastify, dotenv)
 
-      if (options.register.includes('plugins') && FileUtils.checkDirExists(pluginsDir)) {
-        await this.fastify.register(fastifyAutoload, {
-          dir: pluginsDir,
-        })
-      }
+      // if (options.register.includes('plugins') && FileUtils.checkDirExists(pluginsDir)) {
+      //   await this.fastify.register(fastifyAutoload, {
+      //     dir: pluginsDir,
+      //   })
+      // }
 
-      if (options.register.includes('routes') && FileUtils.checkDirExists(routesDir)) {
-        await this.fastify.register(fastifyAutoload, {
-          dir: routesDir,
-        })
-      }
+      // if (options.register.includes('routes') && FileUtils.checkDirExists(routesDir)) {
+      //   await this.fastify.register(fastifyAutoload, {
+      //     dir: routesDir,
+      //   })
+      // }
 
       if (options.register.includes('middlewares')) {
         await this.fastify.register(middie, {
@@ -109,7 +109,7 @@ export default class Server {
         await options.afterStart(dotenv)
     }
     catch (error) {
-      this.fastify.log.error(error)
+      console.error(`Error: ${error}`)
       process.exit(1)
     }
   }

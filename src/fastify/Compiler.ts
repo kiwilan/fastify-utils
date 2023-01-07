@@ -6,11 +6,12 @@ import { FileUtils, FileUtilsPromises } from '../utils'
 import PathUtils from '../utils/PathUtils'
 import type { ReplaceInFileBulk } from '../types'
 
+type DotenvTypeJson = 'string' | 'number' | 'boolean' | 'array' | 'object'
 interface DotenvJson {
-  dotenv: string[]
+  dotenv: Record<string, DotenvTypeJson>
 }
 
-export default class BuildPackage {
+export default class Compiler {
   protected constructor(
     public definitions: string[] = [],
     public routes: string[] = [],
@@ -18,7 +19,7 @@ export default class BuildPackage {
   ) {}
 
   public static async make(isDev = false) {
-    const build = new BuildPackage()
+    const build = new Compiler()
     await build.createTsConfig()
 
     build.definitions = await build.setDotenv()
@@ -34,14 +35,7 @@ export default class BuildPackage {
     const isExists = await FileUtilsPromises.checkIfFileExists(path)
     const configStart = {
       $schema: './node_modules/fastify-utils/lib/schema.json',
-      title: 'User',
-      type: 'object',
-      dotenv: ['USER'],
-      additionalProperties: [
-        {
-          name: 'name',
-        },
-      ],
+      dotenv: {},
     }
 
     if (!isExists) {
@@ -51,21 +45,26 @@ export default class BuildPackage {
 
     const dotenvFile = await FileUtilsPromises.readFile(path)
     const json: DotenvJson = JSON.parse(dotenvFile.toString())
-    console.log(json.dotenv)
 
-    const raw = await FileUtilsPromises.readFile(path)
-    let rawList = raw.toString().split('\n')
-    rawList = rawList.filter(el => el)
+    const list: string[] = []
 
-    return rawList
+    let k: string
+    for (k in json.dotenv) {
+      // const v = json.dotenv[k]
+      list.push(k)
+    }
+
+    return list
   }
 
   private async setRoutes(): Promise<string[]> {
     const routesRaw = PathUtils.getFromRoot('src/routes')
     const isExists = await FileUtilsPromises.checkIfDirExists(routesRaw)
 
-    if (!isExists)
+    if (!isExists) {
       console.warn('`src/routes` not found')
+      return []
+    }
 
     const routesList: { name: string; route: string }[] = []
     const files = await FileUtilsPromises.readDir(routesRaw, 'ts')
@@ -97,7 +96,6 @@ export default class BuildPackage {
   }
 
   private async replaceEnums() {
-    console.log('Replacing enums...')
     const typesCache = PathUtils.getFromPackage('index.d.ts.cache')
     const jsCache = PathUtils.getFromPackage('index.js.cache')
 
@@ -155,6 +153,7 @@ export default class BuildPackage {
         outdir: 'build',
         bundle: true,
         minify: true,
+        splitting: true,
         platform: 'node',
         target: 'esnext',
         format: 'esm',

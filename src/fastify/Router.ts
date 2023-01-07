@@ -12,7 +12,7 @@ interface CreateRoute {
 }
 
 export default class Router {
-  public static list() {
+  public static make() {
     const routes: string[] = []
     Object.keys(EndpointEnum).forEach((key) => {
       routes.push(key)
