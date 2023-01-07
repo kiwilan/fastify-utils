@@ -6,6 +6,10 @@ import { FileUtils, FileUtilsPromises } from '../utils'
 import PathUtils from '../utils/PathUtils'
 import type { ReplaceInFileBulk } from '../types'
 
+interface DotenvJson {
+  dotenv: string[]
+}
+
 export default class BuildPackage {
   protected constructor(
     public definitions: string[] = [],
@@ -26,13 +30,30 @@ export default class BuildPackage {
   }
 
   private async setDotenv(): Promise<string[]> {
-    const file = PathUtils.getFromRoot('src/dotenv')
-    const isExists = await FileUtilsPromises.checkIfFileExists(file)
+    const path = PathUtils.getFromRoot('config.fastify.json')
+    const isExists = await FileUtilsPromises.checkIfFileExists(path)
+    const configStart = {
+      $schema: './node_modules/fastify-utils/lib/schema.json',
+      title: 'User',
+      type: 'object',
+      dotenv: ['USER'],
+      additionalProperties: [
+        {
+          name: 'name',
+        },
+      ],
+    }
 
-    if (!isExists)
-      throw new Error('File dotenv not found')
+    if (!isExists) {
+      console.warn('`config.fastify.json` not found')
+      await FileUtilsPromises.createFile(path, JSON.stringify(configStart, null, 2))
+    }
 
-    const raw = await FileUtilsPromises.readFile(file)
+    const dotenvFile = await FileUtilsPromises.readFile(path)
+    const json: DotenvJson = JSON.parse(dotenvFile.toString())
+    console.log(json.dotenv)
+
+    const raw = await FileUtilsPromises.readFile(path)
     let rawList = raw.toString().split('\n')
     rawList = rawList.filter(el => el)
 

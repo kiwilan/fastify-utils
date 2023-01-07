@@ -25,17 +25,22 @@
     "./syn": {
       "import": "./dist/syn.js",
       "require": "./dist/syn.js"
+    },
+    "./schema": {
+      "import": "./dist/schema.json",
+      "require": "./dist/schema.json"
     }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "lib"
   ],
   "directories": {
     "dist": "dist",
-    "src": "src"
+    "lib": "lib"
   },
   "bin": {
     "syn": "./dist/syn.js"
