@@ -2,7 +2,6 @@ lockfileVersion: 5.4
 
 specifiers:
   '@antfu/eslint-config': ^0.34.0
-  '@fastify/autoload': ^5.7.0
   '@fastify/cors': ^8.2.0
   '@fastify/env': ^4.2.0
   '@fastify/middie': ^8.1.0
@@ -20,7 +19,6 @@ specifiers:
   typescript: ^4.9.4
 
 dependencies:
-  '@fastify/autoload': 5.7.0
   '@fastify/cors': 8.2.0
   '@fastify/env': 4.2.0
   '@fastify/middie': 8.1.0
@@ -401,12 +399,6 @@ packages:
       ajv: 8.11.2
       ajv-formats: 2.1.1
       fast-uri: 2.2.0
-    dev: false
-
-  /@fastify/autoload/5.7.0:
-    resolution: {integrity: sha512-RQ3g5zZnvdhq7yQJAPJq+D73lg/ZFZoPriaQ3Ul0BiJKAZhtLZSefll/kxgwEj0/rp705OUwvQMQTLgXBBMdGQ==}
-    dependencies:
-      pkg-up: 3.1.0
     dev: false
 
   /@fastify/cors/8.2.0:

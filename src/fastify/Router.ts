@@ -1,6 +1,7 @@
-import type { FastifyPluginAsync, FastifyReply, FastifyRequest, HTTPMethods } from 'fastify'
+import type { FastifyInstance, FastifyPluginAsync, FastifyReply, FastifyRequest, HTTPMethods } from 'fastify'
 import { EndpointEnum } from '../types'
 import type { Endpoint, IRoute } from '../types'
+import { FileUtilsPromises, PathUtils } from '../utils'
 import Dotenv from './Dotenv'
 
 interface HttpRequest extends FastifyRequest {}
@@ -12,7 +13,7 @@ interface CreateRoute {
 }
 
 export default class Router {
-  public static make() {
+  public static list(): string[] {
     const routes: string[] = []
     Object.keys(EndpointEnum).forEach((key) => {
       routes.push(key)

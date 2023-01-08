@@ -1,10 +1,14 @@
-import { readFile, readdir, writeFile } from 'fs/promises'
+import { appendFile, mkdir, readFile, readdir, writeFile } from 'fs/promises'
 import { extname } from 'path'
 
 export default class FileUtilsPromises {
   public static async createFile(path: string, content: string) {
     try {
-      await writeFile(path, content, 'utf8')
+      if (path.includes('/')) {
+        const targetDir = path.split('/').slice(0, -1).join('/')
+        await mkdir(targetDir, { recursive: true })
+      }
+      await writeFile(path, content, { encoding: 'utf8', flag: 'w' })
     }
     catch (error) {
       console.warn(error)
@@ -77,5 +81,22 @@ export default class FileUtilsPromises {
     const data = await FileUtilsPromises.readFile(path)
     const result = data.replace(str, replace)
     await FileUtilsPromises.createFile(path, result)
+  }
+
+  public static async addToGitIgnore(ignore: string, path = '.gitignore') {
+    const addToFile = async (path: string, content: string): Promise<void> => {
+      const inputData = await FileUtilsPromises.readFile(path)
+      if (!inputData.includes(content))
+        await appendFile(path, content)
+    }
+
+    const ignoreFiles = async () => {
+      if (!await FileUtilsPromises.checkIfFileExists(path))
+        await FileUtilsPromises.createFile(path, '')
+
+      await addToFile(path, `\n${ignore}\n`)
+    }
+
+    await ignoreFiles()
   }
 }

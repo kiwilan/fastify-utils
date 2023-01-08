@@ -6,6 +6,16 @@ import { FileUtils, FileUtilsPromises } from '../utils'
 import PathUtils from '../utils/PathUtils'
 import type { ReplaceInFileBulk } from '../types'
 
+interface Metadata {
+  name: string
+  version: string
+  description: string
+  author: string
+  license: string
+  type: string
+  homepage: string
+}
+
 type DotenvTypeJson = 'string' | 'number' | 'boolean' | 'array' | 'object'
 interface DotenvJson {
   dotenv: Record<string, DotenvTypeJson>
@@ -16,6 +26,7 @@ export default class Compiler {
     public definitions: string[] = [],
     public routes: string[] = [],
     public config?: BuildResult,
+    public metadata?: Metadata,
   ) {}
 
   public static async make(isDev = false) {
@@ -25,6 +36,7 @@ export default class Compiler {
     build.definitions = await build.setDotenv()
     build.routes = await build.setRoutes()
     await build.replaceEnums()
+    build.metadata = await build.setMetadata()
 
     if (!isDev)
       build.config = await build.setEsbuild()
@@ -143,6 +155,29 @@ export default class Compiler {
     FileUtils.replaceInFileBulk(jsCache, PathUtils.getFromPackage('index.js'), replaceJs)
   }
 
+  private async setMetadata(): Promise<Metadata> {
+    const path = PathUtils.getFromRoot('package.json')
+    const content = await FileUtilsPromises.readFile(path)
+
+    const contentJson: Metadata = JSON.parse(content)
+    const json = {
+      name: contentJson.name,
+      version: contentJson.version,
+      description: contentJson.description,
+      author: contentJson.author,
+      license: contentJson.license,
+      type: contentJson.type,
+      homepage: contentJson.homepage,
+    }
+
+    await FileUtilsPromises.createFile(PathUtils.getFromRoot('build/metadata.json'), JSON.stringify(json, null, 2))
+    await FileUtilsPromises.createFile(PathUtils.getFromRoot('src/metadata.json'), JSON.stringify(json, null, 2))
+
+    await FileUtilsPromises.addToGitIgnore('src/metadata.json')
+
+    return json
+  }
+
   private async setEsbuild() {
     const config = async () => {
       const entryPoints = await glob('src/**/*.ts')
@@ -158,6 +193,7 @@ export default class Compiler {
         target: 'esnext',
         format: 'esm',
         define: {
+          'process.env.NODE_ENV': '"production"',
           'process.env.NODE_ENV_LOG': '"production"',
         },
         outExtension: { '.js': '.mjs' },
@@ -210,6 +246,16 @@ export default class Compiler {
 
     const rootConfig = {
       extends: './.fastify/tsconfig.json',
+      compilerOptions: {
+        paths: {
+          '~/*': [
+            './src/*',
+          ],
+          '@/*': [
+            './*',
+          ],
+        },
+      },
       include: ['src/**/*.ts'],
     }
 
