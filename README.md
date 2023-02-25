@@ -58,6 +58,36 @@ const server = Server.make();
 server.start();
 ```
 
+#### Routes
+
+In `src/routes/root.ts`:
+
+```typescript
+import { Route } from "fastify-utils";
+
+export default Route.make({
+  method: "GET",
+  url: "/",
+  handler: async (request, reply) => {
+    return { hello: "world" };
+  },
+});
+```
+
+And for `src/routes/posts.ts`:
+
+```typescript
+import { Route } from "fastify-utils";
+
+export default Route.make({
+  method: "GET",
+  url: "/posts",
+  handler: async (request, reply) => {
+    return { posts: [] };
+  },
+});
+```
+
 ### Build setup
 
 In `build.ts`:

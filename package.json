@@ -1,6 +1,6 @@
 {
   "name": "@kiwilan/fastify-utils",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -14,8 +14,12 @@
     "url": "https://github.com/kiwilan/vite-plugin-laravel-steward/issues"
   },
   "keywords": [
-    "steward",
-    "vite"
+    "fastify",
+    "utils",
+    "router",
+    "middleware",
+    "cors",
+    "env"
   ],
   "exports": {
     ".": {
