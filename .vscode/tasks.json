@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "update",
+      "label": "NPM update",
       "type": "shell",
       "command": "pnpm update --latest",
       "problemMatcher": [],
@@ -15,7 +15,7 @@
       }
     },
     {
-      "label": "install",
+      "label": "NPM install",
       "type": "shell",
       "command": "pnpm i",
       "problemMatcher": [],
@@ -26,7 +26,7 @@
       }
     },
     {
-      "label": "dev",
+      "label": "NPM dev",
       "type": "shell",
       "command": "pnpm dev",
       "problemMatcher": [],
@@ -37,7 +37,7 @@
       }
     },
     {
-      "label": "build",
+      "label": "NPM build",
       "type": "shell",
       "command": "pnpm build",
       "problemMatcher": [],
@@ -48,9 +48,20 @@
       }
     },
     {
-      "label": "package",
+      "label": "NPM local package",
       "type": "shell",
       "command": "pnpm package",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "close": true
+      }
+    },
+    {
+      "label": "NPM deploy",
+      "type": "shell",
+      "command": "npm publish --access public",
       "problemMatcher": [],
       "presentation": {
         "reveal": "silent",
