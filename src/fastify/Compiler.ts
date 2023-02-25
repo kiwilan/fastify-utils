@@ -208,7 +208,7 @@ export default class Compiler {
     const __dirname = path.dirname(__filename);
     `,
         },
-        plugins: [esbuildPluginPino({ transports: ['pino-pretty'] })],
+        // plugins: [esbuildPluginPino({ transports: ['pino-pretty'] })],
       })
     }
 
