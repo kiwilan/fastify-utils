@@ -30,6 +30,9 @@ export class Dotenv {
     const baseURL = data.BASE_URL ?? 'localhost'
     const port = parseInt(data.PORT ?? '3000')
     const https = data.HTTPS === 'true' ?? false
+    const apiKey = data.API_KEY !== ''
+      ? data.API_KEY ?? ''
+      : false
 
     const prefix = https ? 'https' : 'http'
     const suffix = nodeEnv === 'development' ? `:${port}` : ''
@@ -44,6 +47,7 @@ export class Dotenv {
       API_DOMAINS: [],
       API_DOMAINS_PARSED: [],
       API_DOMAINS_ALL: false,
+      API_KEY: apiKey,
     }
     const dotenv = new Dotenv(properties, data, system)
 
@@ -129,7 +133,6 @@ export class Dotenv {
 
   private static defaultProperties(): DotenvConfig {
     return {
-      NODE_ENV: 'development',
       LOG_LEVEL: 'info',
       PORT: '3000',
       BASE_URL: 'localhost',

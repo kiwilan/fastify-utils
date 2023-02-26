@@ -1,10 +1,11 @@
-import type { FastifyInstance, FastifyRegisterOptions } from 'fastify'
+import type { FastifyInstance, FastifyRegisterOptions, FastifyReply, FastifyRequest } from 'fastify'
 import type { FastifyEnvOptions } from '@fastify/env'
 import fastifyEnv from '@fastify/env'
 import middie from '@fastify/middie'
 import cors from '@fastify/cors'
 import Fastify from 'fastify'
 import { FileUtilsPromises, PathUtils } from '../utils'
+import type { Endpoint } from '../types'
 import { Dotenv } from './Dotenv'
 import { Middleware } from './Middleware'
 
@@ -18,9 +19,27 @@ interface Options {
   register?: Register[]
 }
 
+interface MiddlewareReturn {
+  endpoint: Endpoint
+  condition: boolean
+  abort?: boolean
+  code?: 400 | 401 | 403 | 404 | 500
+  message?: string
+}
+
 interface ServerStart {
   options?: Options
-  callback?: (fastify: FastifyInstance) => void
+  register?: (fastify: FastifyInstance) => void
+  autoMiddleware?: (
+    query: Record<string, string>,
+    params: Record<string, string>,
+    request: FastifyRequest,
+    reply: FastifyReply,
+  ) => MiddlewareReturn[]
+  middleware?: (
+    request: FastifyRequest,
+    reply: FastifyReply,
+  ) => void
 }
 
 export class Server {
@@ -53,10 +72,14 @@ export class Server {
 
   public async start({
     options,
-    callback,
+    register,
+    autoMiddleware,
+    middleware,
   }: ServerStart = {
     options: undefined,
-    callback: undefined,
+    register: undefined,
+    autoMiddleware: undefined,
+    middleware: undefined,
   }) {
     if (!options)
       options = {}
@@ -95,11 +118,31 @@ export class Server {
                 message: instance.message,
               }))
           }
+
+          if (middleware)
+            middleware(request, reply)
+
+          if (autoMiddleware) {
+            const params = request.params as Record<string, string>
+            const query = request.query as Record<string, string>
+            const customInstance = autoMiddleware(query, params, request, reply)
+
+            customInstance.forEach((instance) => {
+              if (instance.condition && instance.abort) {
+                reply.type('application/json')
+                  .code(instance.code || 500)
+                  .send(JSON.stringify({
+                    status: instance.code,
+                    message: instance.message,
+                  }))
+              }
+            })
+          }
         })
       }
 
-      if (callback)
-        callback(this.fastify)
+      if (register)
+        register(this.fastify)
 
       await this.fastify.after()
 

@@ -17,7 +17,6 @@ export class Middleware {
 
     if (instance.request.url.startsWith('/api'))
       instance.checkApiKey()
-      // instance.checkUrl()
 
     return instance
   }
@@ -33,30 +32,22 @@ export class Middleware {
       authHeader = true
     }
 
-    // if (config.data.API_KEY_ENABLED) {
-    //   if (key === undefined) {
-    //     this.message = '`api_key` query or Bearer token is required.'
-    //     this.abort = true
-    //   }
+    if (config.data.API_KEY) {
+      if (key === undefined) {
+        this.message = '`api_key` query or Bearer token is required.'
+        this.abort = true
+      }
 
-    //   if (config.data.API_KEY !== key && key !== undefined) {
-    //     const currentAuth = authHeader
-    //       ? 'Bearer token'
-    //       : '`api_key` query'
-    //     const altAuth = authHeader
-    //       ? '`api_key` query'
-    //       : 'Bearer token'
-    //     this.message = `${currentAuth} is invalid (if you want, you can use ${altAuth} too).`
-    //     this.abort = true
-    //   }
-    //   this.code = 400
-    // }
-  }
-
-  private checkUrl() {
-    if (this.query?.url === undefined) {
-      this.message = '`url` query is required.'
-      this.abort = true
+      if (config.data.API_KEY !== key && key !== undefined) {
+        const currentAuth = authHeader
+          ? 'Bearer token'
+          : '`api_key` query'
+        const altAuth = authHeader
+          ? '`api_key` query'
+          : 'Bearer token'
+        this.message = `${currentAuth} is invalid (if you want, you can use ${altAuth} too).`
+        this.abort = true
+      }
       this.code = 400
     }
   }

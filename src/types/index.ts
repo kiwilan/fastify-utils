@@ -6,6 +6,7 @@ interface DotEnvConfigBase {
   BASE_URL?: string
   PORT?: string
   HTTPS?: string
+  API_KEY?: string
 }
 
 export enum DotEnvEnum {
@@ -25,6 +26,7 @@ export interface DotenvSystemConfig {
   API_DOMAINS: string[]
   API_DOMAINS_PARSED: string[]
   API_DOMAINS_ALL: boolean
+  API_KEY: string | false
 }
 
 export enum EndpointEnum {
