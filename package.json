@@ -1,17 +1,17 @@
 {
   "name": "@kiwilan/fastify-utils",
   "type": "module",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/kiwilan/vite-plugin-laravel-steward",
+  "homepage": "https://github.com/kiwilan/fastify-utils",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiwilan/vite-plugin-laravel-steward.git"
+    "url": "git+https://github.com/kiwilan/fastify-utils.git"
   },
   "bugs": {
-    "url": "https://github.com/kiwilan/vite-plugin-laravel-steward/issues"
+    "url": "https://github.com/kiwilan/fastify-utils/issues"
   },
   "keywords": [
     "fastify",
@@ -57,7 +57,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "syn": "./src/syn.js",
-    "package": "pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-0.0.1.tgz ~/kiwilan-fastify-utils-0.0.1.tgz"
+    "package": "pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-0.0.31.tgz ~/kiwilan-fastify-utils-0.0.31.tgz"
   },
   "dependencies": {
     "@fastify/cors": "^8.2.0",

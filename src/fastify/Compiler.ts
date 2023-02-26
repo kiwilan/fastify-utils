@@ -4,6 +4,7 @@ import { build } from 'esbuild'
 import { FileUtils, FileUtilsPromises } from '../utils'
 import { PathUtils } from '../utils/PathUtils'
 import type { ReplaceInFileBulk } from '../types'
+import { Dotenv } from './Dotenv'
 
 interface Metadata {
   name: string
@@ -28,7 +29,7 @@ export class Compiler {
     public metadata?: Metadata,
   ) {}
 
-  public static async make(isDev = false) {
+  public static async make(): Promise<void> {
     const build = new Compiler()
     await build.createTsConfig()
 
@@ -37,7 +38,8 @@ export class Compiler {
     await build.replaceEnums()
     build.metadata = await build.setMetadata()
 
-    if (!isDev)
+    const dotenv = Dotenv.make()
+    if (!dotenv.system.IS_DEV)
       build.config = await build.setEsbuild()
   }
 
@@ -78,29 +80,37 @@ export class Compiler {
     }
 
     const routesList: { name: string; route: string }[] = []
-    const files = await FileUtilsPromises.readDir(routesRaw, 'ts')
+    const files = await FileUtilsPromises.readDirRecursively(routesRaw, ['.ts'])
 
     files.forEach((element) => {
-      const originalName = element.split('.')[0]
-      let name = originalName
-      const params = name.includes('_') ? name.split('_') : []
-      if (params.length)
-        name = params.shift() || element
+      element = element.replace('.ts', '')
+      const splitted = element.split('routes/')
+      let routeRaw = splitted[1]
 
-      let routeName = `/${name}`
-      if (routeName === '/root')
-        routeName = '/'
+      routeRaw = routeRaw.replace('index', '/')
+      routeRaw = routeRaw.replace('//', '/')
 
-      if (params.length) {
-        params.forEach((param) => {
-          routeName += `/:${param}`
-        })
+      if (routeRaw.length !== 1) {
+        routeRaw = routeRaw.endsWith('/')
+          ? routeRaw.slice(0, -1)
+          : routeRaw
       }
 
-      routesList.push({
-        name: originalName,
-        route: routeName,
-      })
+      if (!routeRaw.startsWith('/'))
+        routeRaw = `/${routeRaw}`
+
+      routeRaw = routeRaw.replace('[', ':')
+      routeRaw = routeRaw.replace(']', '')
+
+      const name = routeRaw
+      const path = routeRaw
+
+      const route = {
+        name,
+        route: path,
+      }
+
+      routesList.push(route)
     })
 
     return routesList.map(el => el.route)

@@ -1,4 +1,4 @@
-import { appendFile, mkdir, readFile, readdir, writeFile } from 'fs/promises'
+import { appendFile, mkdir, readFile, readdir, rename, writeFile } from 'fs/promises'
 import { extname, resolve } from 'path'
 
 export class FileUtilsPromises {
@@ -14,6 +14,22 @@ export class FileUtilsPromises {
       console.warn(error)
       throw new Error('promise createFile error')
     }
+  }
+
+  public static async moveFile(path: string) {
+    await rename(path, path.replace('.ts', '.mjs'))
+
+    // try {
+    //   if (path.includes('/')) {
+    //     const targetDir = path.split('/').slice(0, -1).join('/')
+    //     await mkdir(targetDir, { recursive: true })
+    //   }
+    //   await writeFile(path, content, { encoding: 'utf8', flag: 'w' })
+    // }
+    // catch (error) {
+    //   console.warn(error)
+    //   throw new Error('promise createFile error')
+    // }
   }
 
   public static async readFile(path: string): Promise<string> {

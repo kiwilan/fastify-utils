@@ -24,7 +24,8 @@ export class Dotenv {
     const properties = Dotenv.setProperties()
     const data = Dotenv.setData()
 
-    const nodeEnv = data.NODE_ENV as NodeEnv ?? 'development'
+    const nodeEnv = process.env.NODE_ENV as NodeEnv ?? 'development'
+    const isDev = nodeEnv === 'development'
     const logLevel = data.LOG_LEVEL as LogLevel ?? 'debug'
     const baseURL = data.BASE_URL ?? 'localhost'
     const port = parseInt(data.PORT ?? '3000')
@@ -35,6 +36,7 @@ export class Dotenv {
 
     const system: DotenvSystemConfig = {
       NODE_ENV: nodeEnv,
+      IS_DEV: isDev,
       LOG_LEVEL: logLevel,
       BASE_URL: baseURL,
       PORT: port,

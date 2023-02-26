@@ -10,7 +10,7 @@ import { Middleware } from './Middleware'
 
 type Register = 'plugins' | 'routes' | 'middlewares' | 'cors'
 type BeforeStart = (fastify: FastifyInstance, dotenv: Dotenv, isDev: boolean) => Promise<void>
-type AfterStart = (dotenv: Dotenv, isDev: boolean) => Promise<void>
+type AfterStart = (dotenv: Dotenv) => Promise<void>
 
 interface Options {
   beforeStart?: BeforeStart
@@ -45,7 +45,8 @@ export class Server {
       dotenv: true,
     })
 
-    config.isDev = dotenv.system.NODE_ENV === 'development'
+    console.log('Server initialized', process.env.NODE_ENV)
+    config.isDev = process.env.NODE_ENV === 'development'
 
     return config
   }
@@ -70,10 +71,10 @@ export class Server {
       const dotenv = Dotenv.make()
 
       if (options.register.includes('plugins'))
-        await this.load('plugins')
+        await this.loadPlugins()
 
       if (options.register.includes('routes'))
-        await this.load('routes')
+        await this.loadRoutes()
 
       if (options.beforeStart)
         await options.beforeStart(this.fastify, dotenv, this.isDev)
@@ -121,7 +122,7 @@ export class Server {
       console.warn(`Server listening on ${dotenv.system.API_URL}`)
 
       if (options.afterStart)
-        await options.afterStart(dotenv, this.isDev)
+        await options.afterStart(dotenv)
     }
     catch (error) {
       console.error(`Error: ${error}`)
@@ -130,25 +131,50 @@ export class Server {
     }
   }
 
-  private async load(type: 'plugins' | 'routes') {
-    console.log(`Loading ${type}...`)
+  private async loadRoutes() {
+    console.log('Loading routes...')
 
     const baseDir = `${this.isDev ? 'src' : 'build'}`
-    const routePath = PathUtils.getFromRoot(`${baseDir}/${type}`)
-    const routeFiles = await FileUtilsPromises.readDir(routePath)
+    const routePath = PathUtils.getFromRoot(`${baseDir}/routes`)
+    const routeFiles = await FileUtilsPromises.readDirRecursively(routePath)
 
-    const routes: any[] = []
+    const routes: string[] = []
     await Promise.all(routeFiles.map(async (file) => {
       file = file.replace('.ts', this.isDev ? '' : '.mjs')
-      const path = PathUtils.getFromRoot(`${baseDir}/${type}/${file}`)
 
-      const route = await import(path)
-      await route.default(this.fastify)
+      try {
+        const route = await import(file)
+        await route.default(this.fastify)
+      }
+      catch (e) {
+        throw new Error(`Import file error: ${file}`)
+      }
 
       routes.push(file)
     }))
 
     return routes
+  }
+
+  private async loadPlugins() {
+    console.log('Loading plugins...')
+
+    const baseDir = `${this.isDev ? 'src' : 'build'}`
+    const pluginsPath = PathUtils.getFromRoot(`${baseDir}/plugins`)
+    const pluginsFiles = await FileUtilsPromises.readDir(pluginsPath)
+
+    const plugins: string[] = []
+    await Promise.all(pluginsFiles.map(async (file) => {
+      file = file.replace('.ts', this.isDev ? '' : '.mjs')
+      const path = PathUtils.getFromRoot(`${baseDir}/plugins/${file}`)
+
+      const route = await import(path)
+      await route.default(this.fastify)
+
+      plugins.push(file)
+    }))
+
+    return plugins
   }
 
   private static logger() {

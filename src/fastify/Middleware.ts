@@ -15,10 +15,9 @@ export class Middleware {
     const query = request.query as Record<string, string>
     const instance = new Middleware(request, reply, query)
 
-    if (instance.request.url.startsWith('/api')) {
+    if (instance.request.url.startsWith('/api'))
       instance.checkApiKey()
-      instance.checkUrl()
-    }
+      // instance.checkUrl()
 
     return instance
   }

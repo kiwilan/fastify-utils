@@ -1,4 +1,4 @@
-export type NodeEnv = 'development' | 'test' | 'production'
+export type NodeEnv = 'development' | 'production'
 export type LogLevel = 'debug' | 'error' | 'fatal' | 'info' | 'trace' | 'warn' | 'silent'
 interface DotEnvConfigBase {
   NODE_ENV?: string
@@ -17,6 +17,7 @@ export interface DotenvConfig<T = string> extends IDotEnvExtends<T>, DotEnvConfi
 
 export interface DotenvSystemConfig {
   NODE_ENV: NodeEnv
+  IS_DEV: boolean
   LOG_LEVEL: LogLevel
   BASE_URL: string
   PORT: number

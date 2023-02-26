@@ -19,7 +19,7 @@ pnpm add @kiwilan/fastify-utils tsx
 ## Usage
 
 ```bash
-touch build.ts ; touch config.js ; touch .eslintrc ; touch .env.example
+touch setup.js ; touch .eslintrc ; touch .env.example
 ```
 
 ```bash
@@ -31,7 +31,6 @@ cp .env.example .env
 In `.env`:
 
 ```bash
-NODE_ENV=development # development | test | production
 LOG_LEVEL=debug      # debug | error | fatal  | info | trace | warn | silent
 
 PORT=3000
@@ -39,12 +38,12 @@ BASE_URL=localhost
 HTTPS=false
 ```
 
-In `config.js`:
+In `setup.js`:
 
 ```javascript
 import { Compiler } from "fastify-utils";
 
-Compiler.make(true);
+Compiler.make();
 ```
 
 In `package.json`:
@@ -53,7 +52,7 @@ In `package.json`:
 {
   "scripts": {
     "postinstall": "npm run config",
-    "config": "node config.js",
+    "config": "node setup.js",
     "dev": "npm run config && tsx watch src .env"
   }
 }
@@ -71,7 +70,7 @@ server.start();
 
 #### Routes
 
-In `src/routes/root.ts`:
+In `src/routes/index.ts`:
 
 ```typescript
 import { Route } from "fastify-utils";
@@ -85,7 +84,7 @@ export default Route.make({
 });
 ```
 
-And for `src/routes/posts.ts`:
+And for `src/routes/posts/index.ts`:
 
 ```typescript
 import { Route } from "fastify-utils";
@@ -101,20 +100,12 @@ export default Route.make({
 
 ### Build setup
 
-In `build.ts`:
-
-```typescript
-import { Compiler } from "fastify-utils";
-
-Compiler.make();
-```
-
 In `package.json`:
 
 ```json
 {
   "scripts": {
-    "build": "rimraf build && npm run config && tsx build.ts && npm run check:types",
+    "build": "rimraf build && npm run config && tsx setup.js && npm run check:types",
     "check:types": "tsc --noEmit"
   }
 }
@@ -125,7 +116,6 @@ In `package.json`:
 In `.env`:
 
 ```bash
-NODE_ENV=production # development | test | production
 LOG_LEVEL=error      # debug | error | fatal  | info | trace | warn | silent
 
 PORT=3000 # pm2 port
