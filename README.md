@@ -1,9 +1,9 @@
 # Fastify Utils
 
 [![fastify](https://img.shields.io/static/v1?label=Fastify&message=v4.x&color=000000&style=flat-square&logo=fastify&logoColor=ffffff)](https://www.fastify.io)
-[![typescript](https://img.shields.io/static/v1?label=TypeScript&message=v4.9&color=3178C6&style=flat-square&logo=php&logoColor=ffffff)](https://www.typescriptlang.org)
-[![node.js](https://img.shields.io/static/v1?label=Node.js&message=v18.x&color=339933&style=flat-square&logo=php&logoColor=ffffff)](https://nodejs.org/en)
-[![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v7.x&color=2C8EBB&style=flat-square&logo=php&logoColor=ffffff)](https://pnpm.io)
+[![typescript](https://img.shields.io/static/v1?label=TypeScript&message=v4.9&color=3178C6&style=flat-square&logo=typescript&logoColor=ffffff)](https://www.typescriptlang.org)
+[![node.js](https://img.shields.io/static/v1?label=Node.js&message=v18.x&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
+[![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v7.x&color=F69220&style=flat-square&logo=pnpm&logoColor=ffffff)](https://pnpm.io)
 
 [![npm](https://img.shields.io/npm/v/@kiwilan/fastify-utils.svg?style=flat-square&color=CB3837&logo=npm&logoColor=ffffff&label=npm)](https://www.npmjs.com/package/@kiwilan/fastify-utils)
 
