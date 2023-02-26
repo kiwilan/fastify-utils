@@ -111,6 +111,12 @@ In `package.json`:
 
 ### Production setup
 
+In `.env`:
+
+```bash
+NODE_ENV=production
+```
+
 In `package.json`:
 
 ```json
