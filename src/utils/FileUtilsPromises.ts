@@ -40,13 +40,19 @@ export class FileUtilsPromises {
     }
   }
 
-  public static async readDirRecursively(dir: string): Promise<string[]> {
+  public static async readDirRecursively(dir: string, extensions: string[]): Promise<string[]> {
     const dirents = await readdir(dir, { withFileTypes: true })
     const files = await Promise.all(dirents.map((dirent) => {
       const res = resolve(dir, dirent.name)
-      return dirent.isDirectory() ? this.readDirRecursively(res) : res
+      return dirent.isDirectory() ? this.readDirRecursively(res, extensions) : res
     }))
-    return Array.prototype.concat(...files)
+
+    let list = Array.prototype.concat(...files)
+
+    if (extensions.length > 0)
+      list = list.filter(e => extensions.includes(extname(e).toLowerCase()))
+
+    return list
   }
 
   public static async stringExistsInFile(path: string, str: string): Promise<boolean> {
