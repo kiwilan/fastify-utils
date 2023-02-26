@@ -29,6 +29,13 @@ interface MiddlewareReturn {
 
 interface ServerStart {
   options?: Options
+  /**
+   * Set an base URL to protect with API key, all routes nested under this URL will be protected.
+   *
+   * @example
+   * `/api`
+   */
+  apiKeyProtect?: string
   register?: (fastify: FastifyInstance) => void
   autoMiddleware?: (
     query: Record<string, string>,
@@ -72,11 +79,13 @@ export class Server {
 
   public async start({
     options,
+    apiKeyProtect,
     register,
     autoMiddleware,
     middleware,
   }: ServerStart = {
     options: undefined,
+    apiKeyProtect: undefined,
     register: undefined,
     autoMiddleware: undefined,
     middleware: undefined,

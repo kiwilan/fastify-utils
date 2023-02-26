@@ -103,6 +103,15 @@ export default Route.make({
 });
 ```
 
+#### API key
+
+In `.env`
+
+```bash
+# Could be left empty if you don't want to use it
+API_KEY=
+```
+
 ### Build setup
 
 In `package.json`:
