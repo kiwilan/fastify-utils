@@ -117,7 +117,7 @@ export class Server {
         })
 
         this.fastify.addHook('onRequest', async (request, reply) => {
-          const instance = Middleware.make(request, reply)
+          const instance = Middleware.make(request, reply, apiKeyProtect)
 
           if (instance.abort) {
             reply.type('application/json')

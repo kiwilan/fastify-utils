@@ -11,11 +11,11 @@ export class Middleware {
     public message?: string,
   ) {}
 
-  public static make(request: FastifyRequest, reply: FastifyReply): Middleware {
+  public static make(request: FastifyRequest, reply: FastifyReply, protectUrl: string | undefined): Middleware {
     const query = request.query as Record<string, string>
     const instance = new Middleware(request, reply, query)
 
-    if (instance.request.url.startsWith('/api'))
+    if (protectUrl && instance.request.url.startsWith(protectUrl))
       instance.checkApiKey()
 
     return instance
