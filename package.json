@@ -1,6 +1,6 @@
 {
   "name": "@kiwilan/fastify-utils",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",

@@ -95,6 +95,10 @@ export default class Server {
         })
       }
 
+      process.on('SIGTERM', async () => {
+        await this.fastify.close()
+      })
+
       await this.fastify.listen({ port: dotenv.system.PORT })
 
       console.warn(`Server listening on ${dotenv.system.API_URL}`)
