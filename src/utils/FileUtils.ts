@@ -1,5 +1,5 @@
-import { appendFileSync, createReadStream, existsSync, mkdir, readFile, readFileSync, readdir, statSync, writeFile, writeFileSync } from 'fs'
-import { extname } from 'path'
+import { appendFileSync, createReadStream, existsSync, lstat, mkdir, readFile, readFileSync, readdir, statSync, writeFile, writeFileSync } from 'fs'
+import { extname, join } from 'path'
 import type { ReplaceInFileBulk } from '../types'
 
 export default class FileUtils {
@@ -47,6 +47,37 @@ export default class FileUtils {
 
       if (callback)
         callback(files)
+    })
+  }
+
+  public readDirRecursively(dir: string): Promise<string[]> {
+    return new Promise((resolve, reject) => {
+      readdir(dir, (err, contents) => {
+        if (err)
+          return reject(err)
+
+        Promise.all(
+          contents.map((fileOrDirectory) => {
+            return new Promise((resolve, reject) => {
+              const statPath = join(dir, fileOrDirectory)
+              lstat(statPath, (err, stat) => {
+                if (err)
+                  return reject(err)
+
+                if (stat.isDirectory())
+                  return this.readDirRecursively(statPath).then(resolve)
+
+                resolve([statPath])
+              })
+            })
+          }),
+        )
+          .then((results) => {
+            return results.reduce((all: any[], x: any) => all.concat(...x), [])
+          })
+          .then(resolve)
+          .catch(reject)
+      })
     })
   }
 

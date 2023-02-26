@@ -1,5 +1,5 @@
 import { appendFile, mkdir, readFile, readdir, writeFile } from 'fs/promises'
-import { extname } from 'path'
+import { extname, resolve } from 'path'
 
 export default class FileUtilsPromises {
   public static async createFile(path: string, content: string) {
@@ -38,6 +38,15 @@ export default class FileUtilsPromises {
       console.warn(error)
       throw new Error('promise readDir error')
     }
+  }
+
+  public async readDirRecursively(dir: string): Promise<string[]> {
+    const dirents = await readdir(dir, { withFileTypes: true })
+    const files = await Promise.all(dirents.map((dirent) => {
+      const res = resolve(dir, dirent.name)
+      return dirent.isDirectory() ? this.readDirRecursively(res) : res
+    }))
+    return Array.prototype.concat(...files)
   }
 
   public static async stringExistsInFile(path: string, str: string): Promise<boolean> {
