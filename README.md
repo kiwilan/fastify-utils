@@ -28,6 +28,17 @@ cp .env.example .env
 
 ### Dev setup
 
+In `.env`:
+
+```bash
+NODE_ENV=development # development | test | production
+LOG_LEVEL=debug      # debug | error | fatal  | info | trace | warn | silent
+
+PORT=3000
+BASE_URL=localhost
+HTTPS=false
+```
+
 In `config.js`:
 
 ```javascript
@@ -114,7 +125,12 @@ In `package.json`:
 In `.env`:
 
 ```bash
-NODE_ENV=production
+NODE_ENV=production # development | test | production
+LOG_LEVEL=error      # debug | error | fatal  | info | trace | warn | silent
+
+PORT=3000 # pm2 port
+BASE_URL=domain.com
+HTTPS=true
 ```
 
 In `package.json`:

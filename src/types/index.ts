@@ -5,6 +5,7 @@ interface DotEnvConfigBase {
   LOG_LEVEL?: string
   BASE_URL?: string
   PORT?: string
+  HTTPS?: string
 }
 
 export enum DotEnvEnum {

@@ -28,13 +28,17 @@ export class Dotenv {
     const logLevel = data.LOG_LEVEL as LogLevel ?? 'debug'
     const baseURL = data.BASE_URL ?? 'localhost'
     const port = parseInt(data.PORT ?? '3000')
+    const https = data.HTTPS === 'true' ?? false
+
+    const prefix = https ? 'https' : 'http'
+    const suffix = nodeEnv === 'development' ? `:${port}` : ''
 
     const system: DotenvSystemConfig = {
       NODE_ENV: nodeEnv,
       LOG_LEVEL: logLevel,
       BASE_URL: baseURL,
       PORT: port,
-      API_URL: `http://${baseURL}:${port}`,
+      API_URL: `${prefix}://${baseURL}${suffix}`,
       API_DOMAINS: [],
       API_DOMAINS_PARSED: [],
       API_DOMAINS_ALL: false,
