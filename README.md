@@ -53,7 +53,7 @@ In `package.json`:
   "scripts": {
     "postinstall": "npm run config",
     "config": "node setup.js",
-    "dev": "npm run config && tsx watch src .env"
+    "dev": "npm run config && NODE_ENV=development tsx watch src .env"
   }
 }
 ```
@@ -105,7 +105,7 @@ In `package.json`:
 ```json
 {
   "scripts": {
-    "build": "rimraf build && npm run config && tsx setup.js && npm run check:types",
+    "build": "rimraf build && npm run config && NODE_ENV=production tsx setup.js && npm run check:types",
     "check:types": "tsc --noEmit"
   }
 }
