@@ -1,6 +1,6 @@
 import type { FetchContext, FetchOptions, FetchResponse } from 'ofetch'
 import { $fetch } from 'ofetch'
-import HttpResponse from './HttpResponse'
+import { HttpResponse } from './HttpResponse'
 
 export type ResponseMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
 export type FetchType = 'text' | 'json' | 'unknown'
@@ -53,7 +53,7 @@ interface URLParams {
   queryParams?: RequestParams
 }
 
-export default class Http {
+export class Http {
   protected constructor(
     protected options: FetchableOptions,
     protected ctx?: Ctx,

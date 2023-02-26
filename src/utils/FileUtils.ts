@@ -2,7 +2,7 @@ import { appendFileSync, createReadStream, existsSync, lstat, mkdir, readFile, r
 import { extname, join } from 'path'
 import type { ReplaceInFileBulk } from '../types'
 
-export default class FileUtils {
+export class FileUtils {
   public static createDirIfNotExists(path: string) {
     if (!existsSync(path)) {
       mkdir(path, { recursive: true }, (err) => {
@@ -50,7 +50,7 @@ export default class FileUtils {
     })
   }
 
-  public readDirRecursively(dir: string): Promise<string[]> {
+  public static readDirRecursively(dir: string): Promise<string[]> {
     return new Promise((resolve, reject) => {
       readdir(dir, (err, contents) => {
         if (err)

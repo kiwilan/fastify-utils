@@ -7,7 +7,7 @@ interface Request<T> {
   ctx?: Ctx
 }
 
-export default class HttpResponse<T = object> {
+export class HttpResponse<T = object> {
   protected constructor(
     public options: FetchableOptions,
     public ctx?: Ctx,

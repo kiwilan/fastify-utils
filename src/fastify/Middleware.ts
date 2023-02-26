@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import Dotenv from './Dotenv'
+import { Dotenv } from './Dotenv'
 
-export default class Middleware {
+export class Middleware {
   protected constructor(
     protected request: FastifyRequest,
     protected reply: FastifyReply,

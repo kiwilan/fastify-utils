@@ -1,9 +1,8 @@
 import glob from 'tiny-glob'
 import type { BuildResult } from 'esbuild'
 import { build } from 'esbuild'
-import esbuildPluginPino from 'esbuild-plugin-pino'
 import { FileUtils, FileUtilsPromises } from '../utils'
-import PathUtils from '../utils/PathUtils'
+import { PathUtils } from '../utils/PathUtils'
 import type { ReplaceInFileBulk } from '../types'
 
 interface Metadata {
@@ -21,7 +20,7 @@ interface DotenvJson {
   dotenv: Record<string, DotenvTypeJson>
 }
 
-export default class Compiler {
+export class Compiler {
   protected constructor(
     public definitions: string[] = [],
     public routes: string[] = [],

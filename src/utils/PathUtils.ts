@@ -1,7 +1,7 @@
 import path, { join } from 'path'
 import { fileURLToPath } from 'url'
 
-export default class PathUtils {
+export class PathUtils {
   public static root = process.cwd()
   public static dirname = fileURLToPath(new URL('.', import.meta.url))
 

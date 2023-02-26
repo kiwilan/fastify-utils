@@ -5,8 +5,8 @@ import middie from '@fastify/middie'
 import cors from '@fastify/cors'
 import Fastify from 'fastify'
 import { FileUtilsPromises, PathUtils } from '../utils'
-import Dotenv from './Dotenv'
-import Middleware from './Middleware'
+import { Dotenv } from './Dotenv'
+import { Middleware } from './Middleware'
 
 type Register = 'plugins' | 'routes' | 'middlewares' | 'cors'
 type BeforeStart = (fastify: FastifyInstance, dotenv: Dotenv, isDev: boolean) => Promise<void>
@@ -18,7 +18,7 @@ interface Options {
   register?: Register[]
 }
 
-export default class Server {
+export class Server {
   protected constructor(
     protected fastify: FastifyInstance,
     protected options: FastifyRegisterOptions<FastifyEnvOptions> | undefined,

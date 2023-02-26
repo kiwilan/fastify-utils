@@ -1,7 +1,7 @@
 import { appendFile, mkdir, readFile, readdir, writeFile } from 'fs/promises'
 import { extname, resolve } from 'path'
 
-export default class FileUtilsPromises {
+export class FileUtilsPromises {
   public static async createFile(path: string, content: string) {
     try {
       if (path.includes('/')) {
@@ -40,7 +40,7 @@ export default class FileUtilsPromises {
     }
   }
 
-  public async readDirRecursively(dir: string): Promise<string[]> {
+  public static async readDirRecursively(dir: string): Promise<string[]> {
     const dirents = await readdir(dir, { withFileTypes: true })
     const files = await Promise.all(dirents.map((dirent) => {
       const res = resolve(dir, dirent.name)

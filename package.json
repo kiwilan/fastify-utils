@@ -1,10 +1,10 @@
 {
   "name": "@kiwilan/fastify-utils",
+  "type": "module",
   "version": "0.0.23",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
-  "type": "module",
   "homepage": "https://github.com/kiwilan/vite-plugin-laravel-steward",
   "repository": {
     "type": "git",
@@ -23,21 +23,24 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.js"
     },
     "./syn": {
-      "import": "./dist/syn.js",
-      "require": "./dist/syn.js"
+      "require": "./dist/syn.js",
+      "import": "./dist/syn.js"
     },
     "./schema": {
-      "import": "./dist/schema.json",
-      "require": "./dist/schema.json"
+      "require": "./dist/schema.json",
+      "import": "./dist/schema.json"
     }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "syn": "./dist/syn.js"
+  },
   "files": [
     "dist",
     "lib"
@@ -45,9 +48,6 @@
   "directories": {
     "dist": "dist",
     "lib": "lib"
-  },
-  "bin": {
-    "syn": "./dist/syn.js"
   },
   "scripts": {
     "build": "tsup --clean",

@@ -11,7 +11,7 @@ interface ISchema {
   }
 }
 
-export default class Dotenv {
+export class Dotenv {
   protected constructor(
     public properties: string[],
     public data: DotenvConfig,

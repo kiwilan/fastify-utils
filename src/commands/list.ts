@@ -1,5 +1,4 @@
 import Conf from 'conf'
-import chalk from 'chalk'
 
 const config = new Conf()
 

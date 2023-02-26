@@ -10,15 +10,15 @@ export interface SshDotenvConfig {
 }
 type Callback = (line: string) => void
 
-export default class Ssh {
+export class SSH {
   protected constructor(
     protected keyPath: string,
     protected config: SshDotenvConfig,
     protected pool?: string,
   ) {}
 
-  public static async make(dotenv: SshDotenvConfig): Promise<Ssh> {
-    const ssh = new Ssh(`${process.cwd()}/key`, dotenv)
+  public static async make(dotenv: SshDotenvConfig): Promise<SSH> {
+    const ssh = new SSH(`${process.cwd()}/key`, dotenv)
     await ssh.withKey()
     ssh.pool = ssh.setPool()
 
