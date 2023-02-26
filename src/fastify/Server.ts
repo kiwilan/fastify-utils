@@ -19,7 +19,7 @@ interface Options {
 }
 
 interface ServerStart {
-  options: Options
+  options?: Options
   callback?: (fastify: FastifyInstance) => void
 }
 
@@ -54,9 +54,12 @@ export class Server {
     options,
     callback,
   }: ServerStart = {
-    options: {},
+    options: undefined,
     callback: undefined,
   }) {
+    if (!options)
+      options = {}
+
     if (!options.register?.length)
       options.register = ['cors', 'middlewares', 'plugins', 'routes']
 
