@@ -40,7 +40,7 @@ export class FileUtilsPromises {
     }
   }
 
-  public static async readDirRecursively(dir: string, extensions: string[]): Promise<string[]> {
+  public static async readDirRecursively(dir: string, extensions: string[] = []): Promise<string[]> {
     const dirents = await readdir(dir, { withFileTypes: true })
     const files = await Promise.all(dirents.map((dirent) => {
       const res = resolve(dir, dirent.name)
