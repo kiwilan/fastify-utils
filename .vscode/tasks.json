@@ -61,7 +61,7 @@
     {
       "label": "NPM deploy",
       "type": "shell",
-      "command": "npm publish --access public",
+      "command": "pnpm build && npm publish --access public",
       "problemMatcher": [],
       "presentation": {
         "reveal": "silent",
