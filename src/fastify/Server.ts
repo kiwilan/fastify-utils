@@ -45,7 +45,7 @@ export class Server {
     return config
   }
 
-  public async start(options: Options = {}) {
+  public async start(options: Options = {}, callback?: (fastify: FastifyInstance) => void) {
     if (!options.register?.length)
       options.register = ['cors', 'middlewares', 'plugins', 'routes']
 
@@ -82,6 +82,9 @@ export class Server {
           }
         })
       }
+
+      if (callback)
+        callback(this.fastify)
 
       await this.fastify.after()
 
