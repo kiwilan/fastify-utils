@@ -117,7 +117,7 @@ In `package.json`:
 {
   "scripts": {
     "clean": "rimraf build && rimraf node_modules && pnpm install",
-    "preview": "npm run build && node build/index.mjs",
+    "start": "npm run build && node build/index.mjs",
     "pm2": "pm2 start --name 'social-oembed' './build/index.mjs'"
   }
 }
