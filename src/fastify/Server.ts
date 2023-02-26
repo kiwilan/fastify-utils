@@ -18,6 +18,11 @@ interface Options {
   register?: Register[]
 }
 
+interface ServerStart {
+  options: Options
+  callback?: (fastify: FastifyInstance) => void
+}
+
 export class Server {
   protected constructor(
     protected fastify: FastifyInstance,
@@ -45,7 +50,13 @@ export class Server {
     return config
   }
 
-  public async start(options: Options = {}, callback?: (fastify: FastifyInstance) => void) {
+  public async start({
+    options,
+    callback,
+  }: ServerStart = {
+    options: {},
+    callback: undefined,
+  }) {
     if (!options.register?.length)
       options.register = ['cors', 'middlewares', 'plugins', 'routes']
 
