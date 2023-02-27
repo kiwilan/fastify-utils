@@ -1,8 +1,9 @@
 import { appendFile, mkdir, readFile, readdir, rename, writeFile } from 'fs/promises'
 import { extname, resolve } from 'path'
 
+type FileContent = string | NodeJS.ArrayBufferView | Iterable<string | NodeJS.ArrayBufferView> | AsyncIterable<string | NodeJS.ArrayBufferView>
 export class FileUtilsPromises {
-  public static async createFile(path: string, content: string) {
+  public static async createFile(path: string, content: FileContent) {
     try {
       if (path.includes('/')) {
         const targetDir = path.split('/').slice(0, -1).join('/')
