@@ -193,7 +193,6 @@ export class Server {
     const routes: string[] = []
     await Promise.all(routeFiles.map(async (file) => {
       file = file.replace('.ts', this.isDev ? '' : '.mjs')
-      file = file.replace('_', ':')
 
       try {
         const route = await import(file)
