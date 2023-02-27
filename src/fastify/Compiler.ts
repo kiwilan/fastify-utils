@@ -99,7 +99,8 @@ export class Compiler {
       if (!routeRaw.startsWith('/'))
         routeRaw = `/${routeRaw}`
 
-      routeRaw = routeRaw.replace('_', ':')
+      routeRaw = routeRaw.replace('[', ':')
+      routeRaw = routeRaw.replace(']', '')
 
       const name = routeRaw
       const path = routeRaw
