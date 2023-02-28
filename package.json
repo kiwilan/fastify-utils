@@ -1,7 +1,7 @@
 {
   "name": "@kiwilan/fastify-utils",
   "type": "module",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -57,7 +57,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "syn": "./src/syn.js",
-    "package": "pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-0.0.32.tgz ~/kiwilan-fastify-utils-0.0.32.tgz"
+    "package": "pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils-*.tgz"
   },
   "dependencies": {
     "@fastify/cors": "^8.2.0",
