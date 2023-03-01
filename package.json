@@ -1,7 +1,7 @@
 {
   "name": "@kiwilan/fastify-utils",
   "type": "module",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -23,11 +23,11 @@
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
     "./syn": {
-      "require": "./dist/syn.js",
+      "require": "./dist/syn.cjs",
       "import": "./dist/syn.js"
     },
     "./schema": {

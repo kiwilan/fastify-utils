@@ -5,13 +5,13 @@ import { nativeNodeModules } from '../plugins'
 export interface EsbuildConfigOpts {
   plugins?: any[]
   external?: string[]
-  useExternal?: boolean
+  useNativeNodeModules?: boolean
 }
 
-export const esbuildConfig = async (opts: EsbuildConfigOpts = { plugins: [], external: [], useExternal: false }): Promise<any> => {
+export const esbuildConfig = async (opts: EsbuildConfigOpts = { plugins: [], external: [], useNativeNodeModules: false }): Promise<any> => {
   const config = async () => {
     const entryPoints = await glob('src/**/*.ts')
-    if (opts.useExternal && opts.plugins)
+    if (opts.useNativeNodeModules && opts.plugins)
       opts.plugins.push(nativeNodeModules)
 
     return build({

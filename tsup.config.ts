@@ -7,6 +7,11 @@ export default defineConfig({
     syn: 'src/syn.ts',
   },
   format: ['esm', 'cjs'],
+  // outExtension({ format }) {
+  //   return {
+  //     js: `.${format}.js`,
+  //   }
+  // },
   dts: true,
   minify: false,
   treeshake: true,

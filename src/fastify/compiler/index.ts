@@ -12,7 +12,7 @@ export class Compiler {
     public metadata?: Metadata,
   ) {}
 
-  public static async make(opts: EsbuildConfigOpts = { plugins: [], external: [], useExternal: false }): Promise<void> {
+  public static async make(opts: EsbuildConfigOpts = { plugins: [], external: [], useNativeNodeModules: false }): Promise<void> {
     const build = new Compiler()
 
     createTsConfig('.fastify/tsconfig.json')
