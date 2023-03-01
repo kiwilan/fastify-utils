@@ -1,4 +1,4 @@
-import { Compiler, Dotenv, Http, Middleware, Router, SSH, Server } from './fastify'
+import { Compiler, Dotenv, Http, LocalServer, Middleware, Router, SSH } from './fastify'
 import { FileUtils, FileUtilsPromises, PathUtils } from './utils'
 
 export * from './types'
@@ -8,7 +8,7 @@ export {
   Dotenv,
   Http,
   Middleware,
-  Server,
+  LocalServer,
   SSH,
   Router,
   FileUtils,
