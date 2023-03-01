@@ -54,10 +54,8 @@ export class LocalServerStart {
     })
 
     await this.server.fastify.listen({
-      // host: dotenv.system.BASE_URL,
-      host: process.env.BASE_URL,
-      // port: dotenv.system.PORT,
-      port: parseInt(process.env.PORT || '3000'),
+      host: dotenv.system.HOST,
+      port: dotenv.system.PORT,
     })
 
     console.warn(`Server listening on ${dotenv.system.API_URL}`)

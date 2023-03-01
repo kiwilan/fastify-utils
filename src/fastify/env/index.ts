@@ -20,6 +20,7 @@ export class Environment {
       IS_DEV: true,
       LOG_LEVEL: 'debug',
       BASE_URL: 'localhost',
+      HOST: 'localhost',
       PORT: 3000,
       API_URL: 'http://localhost:3000',
       API_DOMAINS: [],
@@ -36,24 +37,38 @@ export class Environment {
   }
 
   private parseEnv(): void {
-    const nodeEnv = process.env.NODE_ENV as NodeEnv ?? 'development'
+    const nodeEnv = process.env.NODE_ENV
+      ? process.env.NODE_ENV as NodeEnv ?? 'development'
+      : this.data.NODE_ENV as NodeEnv ?? 'development'
     const isDev = nodeEnv === 'development'
 
-    // const logLevel = this.data.LOG_LEVEL as LogLevel ?? 'debug'
-    // const baseURL = this.data.BASE_URL ?? 'localhost'
-    // const port = parseInt(this.data.PORT ?? '3000')
-    // const https = this.data.HTTPS === 'true' ?? false
-    // const apiKey = this.data.API_KEY !== ''
-    //   ? this.data.API_KEY ?? ''
-    //   : false
+    const logLevel = process.env.LOG_LEVEL
+      ? process.env.LOG_LEVEL as LogLevel
+      : this.data.LOG_LEVEL as LogLevel
+    const baseURL = process.env.BASE_URL
+      ? process.env.BASE_URL
+      : this.data.BASE_URL ?? 'localhost'
+    const host = process.env.HOST
+      ? process.env.HOST
+      : this.data.HOST ?? 'localhost'
+    const port = process.env.PORT
+      ? parseInt(process.env.PORT ?? '3000')
+      : parseInt(this.data.PORT ?? '3000')
+    const https = process.env.HTTPS
+      ? process.env.HTTPS === 'true'
+      : this.data.HTTPS === 'true' ?? false
 
-    const logLevel = process.env.LOG_LEVEL as LogLevel ?? 'debug'
-    const baseURL = process.env.BASE_URL ?? 'localhost'
-    const port = parseInt(process.env.PORT ?? '3000')
-    const https = process.env.HTTPS === 'true' ?? false
-    const apiKey = process.env.API_KEY
-      ? process.env.API_KEY ?? ''
-      : false
+    let apiKey: string | false = false
+    if (process.env.API_KEY) {
+      apiKey = process.env.API_KEY !== ''
+        ? process.env.API_KEY
+        : false
+    }
+    if (!process.env.API_KEY) {
+      apiKey = this.data.API_KEY !== undefined
+        ? this.data.API_KEY
+        : false
+    }
 
     const prefix = https ? 'https' : 'http'
     const suffix = nodeEnv === 'development' ? `:${port}` : ''
@@ -63,6 +78,7 @@ export class Environment {
       IS_DEV: isDev,
       LOG_LEVEL: logLevel,
       BASE_URL: baseURL,
+      HOST: host,
       PORT: port,
       API_URL: `${prefix}://${baseURL}${suffix}`,
       API_KEY: apiKey,

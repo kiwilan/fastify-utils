@@ -29,15 +29,13 @@ export class Compiler {
 
     const dotenv = Environment.make()
 
-    if (dotenv.system.IS_DEV) {
-      if (opts.envDebug) {
-        console.error('Environment properties:')
-        console.error(dotenv.properties)
-        console.error('Environment data:')
-        console.error(dotenv.data)
-        console.error('Environment system:')
-        console.error(dotenv.system)
-      }
+    if (dotenv.system.IS_DEV && opts.envDebug) {
+      console.error('Environment properties:')
+      console.error(dotenv.properties)
+      console.error('Environment data:')
+      console.error(dotenv.data)
+      console.error('Environment system:')
+      console.error(dotenv.system)
     }
 
     if (!dotenv.system.IS_DEV)

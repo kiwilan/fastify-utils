@@ -4,6 +4,7 @@ interface EnvironmentConfigBase {
   NODE_ENV?: string
   LOG_LEVEL?: string
   BASE_URL?: string
+  HOST?: string
   PORT?: string
   HTTPS?: string
   API_KEY?: string
@@ -21,6 +22,7 @@ export interface EnvironmentSystemConfig {
   IS_DEV: boolean
   LOG_LEVEL: LogLevel
   BASE_URL: string
+  HOST: string
   PORT: number
   API_URL: string
   API_DOMAINS: string[]
