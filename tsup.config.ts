@@ -13,7 +13,8 @@ export default defineConfig({
   //   }
   // },
   dts: true,
-  minify: false,
+  minify: true,
   treeshake: true,
   splitting: true,
+  external: ['fastify'],
 })
