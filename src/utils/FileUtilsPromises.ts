@@ -1,4 +1,4 @@
-import { appendFile, mkdir, readFile, readdir, rename, writeFile } from 'fs/promises'
+import { appendFile, mkdir, readFile, readdir, rename, rm, writeFile } from 'fs/promises'
 import { extname, resolve } from 'path'
 
 type FileContent = string | NodeJS.ArrayBufferView | Iterable<string | NodeJS.ArrayBufferView> | AsyncIterable<string | NodeJS.ArrayBufferView>
@@ -17,20 +17,18 @@ export class FileUtilsPromises {
     }
   }
 
+  public static async removeDirectory(path: string) {
+    try {
+      await rm(path, { recursive: true, force: true })
+    }
+    catch (error) {
+      console.warn(error)
+      throw new Error('promise removeDirectory error')
+    }
+  }
+
   public static async moveFile(path: string) {
     await rename(path, path.replace('.ts', '.mjs'))
-
-    // try {
-    //   if (path.includes('/')) {
-    //     const targetDir = path.split('/').slice(0, -1).join('/')
-    //     await mkdir(targetDir, { recursive: true })
-    //   }
-    //   await writeFile(path, content, { encoding: 'utf8', flag: 'w' })
-    // }
-    // catch (error) {
-    //   console.warn(error)
-    //   throw new Error('promise createFile error')
-    // }
   }
 
   public static async readFile(path: string): Promise<string> {

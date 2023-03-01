@@ -1,7 +1,7 @@
-import type { DotenvJson } from '.'
+import type { EnvironmentJson } from '.'
 import { FileUtilsPromises, PathUtils } from '@/src/utils'
 
-export const generateDotenv = async (): Promise<string[]> => {
+export const generateEnvironment = async (): Promise<string[]> => {
   const path = PathUtils.getFromRoot('config.fastify.json')
   const isExists = await FileUtilsPromises.checkIfFileExists(path)
   const configStart = {
@@ -15,7 +15,7 @@ export const generateDotenv = async (): Promise<string[]> => {
   }
 
   const dotenvFile = await FileUtilsPromises.readFile(path)
-  const json: DotenvJson = JSON.parse(dotenvFile.toString())
+  const json: EnvironmentJson = JSON.parse(dotenvFile.toString())
 
   const list: string[] = []
 

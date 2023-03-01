@@ -1,7 +1,7 @@
 import { chmod, unlink, writeFile } from 'fs/promises'
 import { execSync } from 'child_process'
 
-export interface SshDotenvConfig {
+export interface SshEnvironmentConfig {
   sshHost?: string
   sshPort?: string
   sshUser?: string
@@ -13,11 +13,11 @@ type Callback = (line: string) => void
 export class SSH {
   protected constructor(
     protected keyPath: string,
-    protected config: SshDotenvConfig,
+    protected config: SshEnvironmentConfig,
     protected pool?: string,
   ) {}
 
-  public static async make(dotenv: SshDotenvConfig): Promise<SSH> {
+  public static async make(dotenv: SshEnvironmentConfig): Promise<SSH> {
     const ssh = new SSH(`${process.cwd()}/key`, dotenv)
     await ssh.withKey()
     ssh.pool = ssh.setPool()

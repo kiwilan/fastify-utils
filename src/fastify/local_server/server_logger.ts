@@ -1,7 +1,7 @@
-import { Dotenv } from '../../Dotenv'
+import { Environment } from '../env'
 
-export const logger = () => {
-  const config = Dotenv.make()
+export const serverLogger = () => {
+  const config = Environment.make()
   const logger = process.env.NODE_ENV_LOG === 'production'
     ? { level: config.data.LOG_LEVEL }
     : {

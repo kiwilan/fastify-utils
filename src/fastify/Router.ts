@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync, FastifyReply, FastifyRequest, HTTPMethods } from 'fastify'
 import { EndpointEnum } from '../types'
 import type { Endpoint, IRoute } from '../types'
-import { Dotenv } from './Dotenv'
+import { Environment } from './env'
 
 interface HttpRequest extends FastifyRequest {}
 interface HttpReply extends FastifyReply {}
@@ -48,7 +48,7 @@ export class Router {
     else
       current = route
 
-    const dotenv = Dotenv.make()
+    const dotenv = Environment.make()
 
     let currentRoute: string = current.endpoint
 
@@ -85,7 +85,7 @@ export class Router {
    * Create a `Route` from `Request`
    */
   public static routeBuilder = (req: FastifyRequest): IRoute => {
-    const dotenv = Dotenv.make()
+    const dotenv = Environment.make()
     const baseURL = dotenv.data.BASE_URL || ''
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const url = req.url.replace(baseURL, '').replace(/\/$/, '')

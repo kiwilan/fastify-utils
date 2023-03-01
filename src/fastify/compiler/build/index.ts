@@ -3,7 +3,7 @@ import { esbuildConfig } from './esbuild_config'
 import { generateMetadata } from './generate_metadata'
 import { replaceEnums } from './replace_enums'
 import { generateRoutes } from './generate_routes'
-import { generateDotenv } from './generate_dotenv'
+import { generateEnvironment } from './generate_dotenv'
 
 interface Metadata {
   name: string
@@ -14,15 +14,15 @@ interface Metadata {
   type: string
   homepage: string
 }
-type DotenvTypeJson = 'string' | 'number' | 'boolean' | 'array' | 'object'
-interface DotenvJson {
-  dotenv: Record<string, DotenvTypeJson>
+type EnvironmentTypeJson = 'string' | 'number' | 'boolean' | 'array' | 'object'
+interface EnvironmentJson {
+  dotenv: Record<string, EnvironmentTypeJson>
 }
 
 export type {
   Metadata,
-  DotenvTypeJson,
-  DotenvJson,
+  EnvironmentTypeJson,
+  EnvironmentJson,
 }
 
 export {
@@ -31,5 +31,5 @@ export {
   generateMetadata,
   replaceEnums,
   generateRoutes,
-  generateDotenv,
+  generateEnvironment,
 }

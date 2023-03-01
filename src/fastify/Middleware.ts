@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { Dotenv } from './Dotenv'
+import { Environment } from './env'
 
 export class Middleware {
   protected constructor(
@@ -22,7 +22,7 @@ export class Middleware {
   }
 
   private checkApiKey() {
-    const config = Dotenv.make()
+    const config = Environment.make()
     let key = this.query?.api_key
     const headers = this.request.headers
     let authHeader = false

@@ -1,10 +1,10 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import type { Dotenv } from '../fastify'
+import type { Environment } from '../fastify'
 import type { Endpoint } from './router'
 
 export type Use = 'plugins' | 'routes' | 'middlewares' | 'cors'
-export type BeforeStart = (fastify: FastifyInstance, dotenv: Dotenv, isDev: boolean) => Promise<void>
-export type AfterStart = (dotenv: Dotenv) => Promise<void>
+export type BeforeStart = (fastify: FastifyInstance, dotenv: Environment, isDev: boolean) => Promise<void>
+export type AfterStart = (dotenv: Environment) => Promise<void>
 
 export interface MiddlewareReturn {
   endpoint: Endpoint

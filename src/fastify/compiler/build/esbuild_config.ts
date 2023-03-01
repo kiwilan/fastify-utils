@@ -1,14 +1,16 @@
+import type { Plugin } from 'esbuild'
 import { build } from 'esbuild'
 import glob from 'tiny-glob'
 import { nativeNodeModules } from '../plugins'
 
 export interface EsbuildConfigOpts {
-  plugins?: any[]
+  plugins?: Plugin[]
   external?: string[]
   useNativeNodeModules?: boolean
+  envDebug?: boolean
 }
 
-export const esbuildConfig = async (opts: EsbuildConfigOpts = { plugins: [], external: [], useNativeNodeModules: false }): Promise<any> => {
+export const esbuildConfig = async (opts: EsbuildConfigOpts): Promise<any> => {
   const config = async () => {
     const entryPoints = await glob('src/**/*.ts')
     if (opts.useNativeNodeModules && opts.plugins)

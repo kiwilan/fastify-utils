@@ -1,6 +1,6 @@
 export type NodeEnv = 'development' | 'production'
 export type LogLevel = 'debug' | 'error' | 'fatal' | 'info' | 'trace' | 'warn' | 'silent'
-interface DotEnvConfigBase {
+interface EnvironmentConfigBase {
   NODE_ENV?: string
   LOG_LEVEL?: string
   BASE_URL?: string
@@ -9,14 +9,14 @@ interface DotEnvConfigBase {
   API_KEY?: string
 }
 
-export enum DotEnvEnum {
-  SAMPLE_DOTENV = 0,
+export enum EnvironmentEnum {
+  SAMPLE_Environment = 0,
 }
-export type DotEnvType = keyof typeof DotEnvEnum
-export type IDotEnvExtends<T> = Partial<Record<DotEnvType, T>>
-export interface DotenvConfig<T = string> extends IDotEnvExtends<T>, DotEnvConfigBase {}
+export type EnvironmentType = keyof typeof EnvironmentEnum
+export type IEnvironmentExtends<T> = Partial<Record<EnvironmentType, T>>
+export interface EnvironmentConfig<T = string> extends IEnvironmentExtends<T>, EnvironmentConfigBase {}
 
-export interface DotenvSystemConfig {
+export interface EnvironmentSystemConfig {
   NODE_ENV: NodeEnv
   IS_DEV: boolean
   LOG_LEVEL: LogLevel
@@ -27,4 +27,12 @@ export interface DotenvSystemConfig {
   API_DOMAINS_PARSED: string[]
   API_DOMAINS_ALL: boolean
   API_KEY: string | false
+}
+
+export interface ISchema {
+  type: 'object'
+  required: never[]
+  properties: {
+    [key: string]: string
+  }
 }

@@ -1,9 +1,9 @@
 import fastifyEnv from '@fastify/env'
 import middie from '@fastify/middie'
 import cors from '@fastify/cors'
-import { Dotenv } from '../../Dotenv'
-import { Middleware } from '../../Middleware'
-import type { LocalServer } from '..'
+import { Environment } from '../env'
+import { Middleware } from '../Middleware'
+import type { LocalServer } from '.'
 import type { AfterStart, BeforeStart, ServerStartOptions, ServerStartOptionsAutoMiddleware, ServerStartOptionsMiddleware, ServerStartOptionsRegister, Use } from '@/src/types'
 import { FileUtilsPromises, PathUtils } from '@/src/utils'
 
@@ -47,13 +47,18 @@ export class LocalServerStart {
   }
 
   private async listen() {
-    const dotenv = Dotenv.make()
+    const dotenv = Environment.make()
 
     process.on('SIGTERM', async () => {
       await this.server.fastify.close()
     })
 
-    await this.server.fastify.listen({ port: dotenv.system.PORT })
+    await this.server.fastify.listen({
+      // host: dotenv.system.BASE_URL,
+      host: process.env.BASE_URL,
+      // port: dotenv.system.PORT,
+      port: parseInt(process.env.PORT || '3000'),
+    })
 
     console.warn(`Server listening on ${dotenv.system.API_URL}`)
 
@@ -62,7 +67,7 @@ export class LocalServerStart {
   }
 
   private async loadCors() {
-    const dotenv = Dotenv.make()
+    const dotenv = Environment.make()
 
     if (this.register)
       this.register(this.server.fastify)
@@ -123,7 +128,7 @@ export class LocalServerStart {
 
   private async loadPluginsAndRoutes() {
     await this.server.fastify.register(fastifyEnv, this.server.options)
-    const dotenv = Dotenv.make()
+    const dotenv = Environment.make()
 
     if (this.use?.includes('plugins'))
       await this.load('plugins')
@@ -156,6 +161,7 @@ export class LocalServerStart {
         await route.default(this.server.fastify)
       }
       catch (e) {
+        console.error(e)
         throw new Error(`Import file error: ${file}`)
       }
 

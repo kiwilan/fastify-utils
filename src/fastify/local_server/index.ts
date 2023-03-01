@@ -1,8 +1,9 @@
 import type { FastifyInstance, FastifyRegisterOptions } from 'fastify'
 import type { FastifyEnvOptions } from '@fastify/env'
 import Fastify from 'fastify'
-import { Dotenv } from '../Dotenv'
-import { LocalServerStart, logger } from './build'
+import { Environment } from '../env'
+import { serverLogger } from './server_logger'
+import { LocalServerStart } from './localServerStart'
 import type { ServerStartOptions } from '@/src/types'
 
 export class LocalServer {
@@ -14,10 +15,10 @@ export class LocalServer {
   }
 
   public static make(): LocalServer {
-    const dotenv = Dotenv.make()
+    const dotenv = Environment.make()
 
     const fastify = Fastify({
-      logger: logger(),
+      logger: serverLogger(),
       ignoreTrailingSlash: true,
     })
     const config = new LocalServer(fastify, {
