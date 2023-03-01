@@ -48,7 +48,9 @@ In `setup.js`:
 ```javascript
 import { Compiler } from "fastify-utils";
 
-Compiler.make();
+Compiler.make({
+  // options
+});
 ```
 
 In `package.json`:
@@ -66,11 +68,13 @@ In `package.json`:
 In `src/index.ts`:
 
 ```typescript
-import { Server } from "fastify-utils";
+import { LocalServer } from "fastify-utils";
 
-const server = Server.make();
+const server = LocalServer.make();
 
-server.start();
+server.start({
+  // options
+});
 ```
 
 #### Routes
@@ -89,14 +93,14 @@ export default Route.make({
 });
 ```
 
-And for `src/routes/posts/index.ts`:
+And for `src/routes/api/posts/index.ts`:
 
 ```typescript
 import { Route } from "fastify-utils";
 
 export default Route.make({
   method: "GET",
-  url: "/posts",
+  url: "/api/posts", // autocomplete
   handler: async (request, reply) => {
     return { posts: [] };
   },
@@ -143,7 +147,7 @@ In `package.json`:
 {
   "scripts": {
     "clean": "rimraf build && rimraf node_modules && pnpm install",
-    "start": "npm run build && node build/index.mjs",
+    "start": "node build/index.mjs",
     "pm2": "pm2 start --name 'social-oembed' './build/index.mjs'"
   }
 }
