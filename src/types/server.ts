@@ -1,5 +1,5 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import type { Dotenv, LocalServer } from '../fastify'
+import type { Dotenv } from '../fastify'
 import type { Endpoint } from './router'
 
 export type Use = 'plugins' | 'routes' | 'middlewares' | 'cors'
@@ -27,7 +27,6 @@ export type ServerStartOptionsAutoMiddleware = (
 ) => void
 
 export interface ServerStartOptions {
-  server: LocalServer
   beforeStart?: BeforeStart
   afterStart?: AfterStart
   use?: Use[]

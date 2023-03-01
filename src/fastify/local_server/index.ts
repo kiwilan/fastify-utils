@@ -34,6 +34,6 @@ export class LocalServer {
   }
 
   public async start(opts: ServerStartOptions): Promise<void> {
-    await LocalServerStart.make(opts)
+    await LocalServerStart.make(this, opts)
   }
 }

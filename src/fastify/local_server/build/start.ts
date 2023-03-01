@@ -20,8 +20,8 @@ export class LocalServerStart {
   ) {
   }
 
-  public static async make(opts: ServerStartOptions): Promise<void> {
-    const self = new LocalServerStart(opts.server)
+  public static async make(server: LocalServer, opts: ServerStartOptions): Promise<void> {
+    const self = new LocalServerStart(server)
 
     self.beforeStart = opts.beforeStart
     self.afterStart = opts.afterStart
@@ -148,6 +148,8 @@ export class LocalServerStart {
     const els: string[] = []
     await Promise.all(files.map(async (file) => {
       file = file.replace('.ts', this.server.isDev ? '' : '.mjs')
+      if (type === 'plugins')
+        file = PathUtils.getFromRoot(`${baseDir}/plugins/${file}`)
 
       try {
         const route = await import(file)
