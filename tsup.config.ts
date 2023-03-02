@@ -13,8 +13,14 @@ export default defineConfig({
   //   }
   // },
   dts: true,
-  minify: true,
-  treeshake: true,
-  splitting: true,
-  external: ['fastify'],
+  minify: false,
+  treeshake: false,
+  splitting: false,
+  external: [
+    'fastify',
+    'esbuild',
+    '@fastify/env',
+    '@fastify/middie',
+    '@fastify/cors',
+  ],
 })
