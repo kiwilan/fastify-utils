@@ -3,15 +3,10 @@ import { defineConfig } from 'tsup'
 export default defineConfig({
   name: 'fastify-utils',
   entry: {
-    index: 'src/lib/index.ts',
-    syn: 'src/syn.ts',
+    index: 'src/compiler/index.ts',
   },
   format: ['esm', 'cjs'],
-  // outExtension({ format }) {
-  //   return {
-  //     js: `.${format}.js`,
-  //   }
-  // },
+  outDir: 'compiler',
   dts: true,
   minify: false,
   treeshake: false,

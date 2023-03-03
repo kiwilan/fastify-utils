@@ -1,7 +1,7 @@
 {
   "name": "@kiwilan/fastify-utils",
   "type": "module",
-  "version": "0.0.71",
+  "version": "0.1.0",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -33,6 +33,10 @@
     "./schema": {
       "require": "./dist/schema.json",
       "import": "./dist/schema.json"
+    },
+    "./compiler": {
+      "require": "./compiler/index.cjs",
+      "import": "./compiler/index.js"
     }
   },
   "main": "./dist/index.js",
@@ -43,37 +47,44 @@
   },
   "files": [
     "dist",
+    "compiler",
     "lib"
   ],
   "directories": {
     "dist": "dist",
-    "lib": "lib"
+    "lib": "lib",
+    "compiler": "compiler"
   },
   "scripts": {
-    "build": "tsup --clean",
+    "build": "pnpm build:lib ; pnpm build:compiler",
+    "build:lib": "tsup --clean",
+    "build:compiler": "tsup --clean --config ./tsup.compiler.config.ts",
     "watch": "tsup --watch",
     "lint": "eslint . --ignore-path .gitignore",
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "syn": "./src/syn.js",
-    "package": "pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils-*.tgz"
+    "package": "rm -f kiwilan-fastify-utils-*.tgz ; pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils-*.tgz"
   },
   "dependencies": {
     "@fastify/cors": "^8.2.0",
     "@fastify/env": "^4.2.0",
     "@fastify/middie": "^8.1.0",
+    "@kiwilan/filesystem": "^0.0.10",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "conf": "^11.0.1",
     "esbuild": "^0.17.10",
     "esbuild-plugin-pino": "^1.2.8",
     "fastify": "^4.13.0",
+    "md5": "^2.3.0",
     "ofetch": "^1.0.1",
     "tiny-glob": "^0.2.9"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.35.3",
+    "@types/md5": "^2.3.2",
     "@types/node": "^18.14.1",
     "eslint": "^8.34.0",
     "tsup": "^6.6.3",
