@@ -1,7 +1,7 @@
 {
   "name": "@kiwilan/fastify-utils",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.10",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -71,7 +71,7 @@
     "@fastify/cors": "^8.2.0",
     "@fastify/env": "^4.2.0",
     "@fastify/middie": "^8.1.0",
-    "@kiwilan/filesystem": "^0.0.10",
+    "@kiwilan/filesystem": "^0.0.11",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "conf": "^11.0.1",

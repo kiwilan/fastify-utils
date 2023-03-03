@@ -5,7 +5,7 @@ specifiers:
   '@fastify/cors': ^8.2.0
   '@fastify/env': ^4.2.0
   '@fastify/middie': ^8.1.0
-  '@kiwilan/filesystem': ^0.0.10
+  '@kiwilan/filesystem': ^0.0.11
   '@types/md5': ^2.3.2
   '@types/node': ^18.14.1
   chalk: ^5.2.0
@@ -25,7 +25,7 @@ dependencies:
   '@fastify/cors': 8.2.0
   '@fastify/env': 4.2.0
   '@fastify/middie': 8.1.0
-  '@kiwilan/filesystem': 0.0.10
+  '@kiwilan/filesystem': 0.0.11
   chalk: 5.2.0
   commander: 10.0.0
   conf: 11.0.1
@@ -430,8 +430,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@kiwilan/filesystem/0.0.10:
-    resolution: {integrity: sha512-yRIwY2RR3z2i8gfY6Y500GdLOz8wp8GJkvXqGImGKumZMBUST8zbxiTlMNaSthvTBoS7AYTbCeyH0PFO5vVI4A==}
+  /@kiwilan/filesystem/0.0.11:
+    resolution: {integrity: sha512-NPnF2sPjlrxAcOBorqL2IsfJTofduCoB99lVX+SVucwugTMD2N9XHuEr4qVbqvBCWY85t3Rt1/neRwZYPjOdIA==}
     dependencies:
       glob: 9.2.1
       md5: 2.3.0

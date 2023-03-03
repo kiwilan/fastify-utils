@@ -8,15 +8,10 @@ export interface EsbuildConfigOpts {
   plugins?: Plugin[]
   external?: string[]
   useNativeNodeModules?: boolean
+  callback?: () => Promise<void>
 }
 
-export const esbuildConfig = async (
-  opts: EsbuildConfigOpts = {
-    plugins: [],
-    external: [],
-    useNativeNodeModules: false,
-  },
-): Promise<any> => {
+export const esbuildConfig = async (opts: EsbuildConfigOpts): Promise<any> => {
   const config = async () => {
     const entryPoints = await glob('src/**/*.ts')
     if (!opts.plugins)
@@ -29,6 +24,9 @@ export const esbuildConfig = async (
       transports: ['pino-pretty'],
     }) as any as Plugin
     opts.plugins.push(esbuildPino)
+
+    if (opts.callback)
+      await opts.callback()
 
     return build({
       entryPoints,
