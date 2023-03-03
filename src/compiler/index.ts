@@ -14,9 +14,8 @@ export class Compiler {
 
   public static async make(opts: EsbuildConfigOpts = {
     plugins: [],
-     external: [],
-     useNativeNodeModules: false,
-     envDebug: false,
+    external: [],
+    useNativeNodeModules: false,
   }): Promise<void> {
     const build = new Compiler()
 

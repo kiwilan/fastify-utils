@@ -1,20 +1,34 @@
 import type { Plugin } from 'esbuild'
 import { build } from 'esbuild'
 import glob from 'tiny-glob'
+import esbuildPluginPino from 'esbuild-plugin-pino'
 import { nativeNodeModules } from '../plugins'
 
 export interface EsbuildConfigOpts {
   plugins?: Plugin[]
   external?: string[]
   useNativeNodeModules?: boolean
-  envDebug?: boolean
 }
 
-export const esbuildConfig = async (opts: EsbuildConfigOpts): Promise<any> => {
+export const esbuildConfig = async (
+  opts: EsbuildConfigOpts = {
+    plugins: [],
+    external: [],
+    useNativeNodeModules: false,
+  },
+): Promise<any> => {
   const config = async () => {
     const entryPoints = await glob('src/**/*.ts')
+    if (!opts.plugins)
+      opts.plugins = []
+
     if (opts.useNativeNodeModules && opts.plugins)
       opts.plugins.push(nativeNodeModules)
+
+    const esbuildPino = esbuildPluginPino({
+      transports: ['pino-pretty'],
+    }) as any as Plugin
+    opts.plugins.push(esbuildPino)
 
     return build({
       entryPoints,
@@ -42,7 +56,6 @@ export const esbuildConfig = async (opts: EsbuildConfigOpts): Promise<any> => {
   const __dirname = path.dirname(__filename);
   `,
       },
-      // esbuildPluginPino({ transports: ['pino-pretty'] })
       plugins: opts.plugins,
       external: opts.external,
     })

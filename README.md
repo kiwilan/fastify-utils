@@ -1,4 +1,4 @@
-# Fastify Utils
+# Kiwilan's fastify-utils
 
 [![fastify](https://img.shields.io/static/v1?label=Fastify&message=v4.x&color=000000&style=flat-square&logo=fastify&logoColor=ffffff)](https://www.fastify.io)
 [![typescript](https://img.shields.io/static/v1?label=TypeScript&message=v4.9&color=3178C6&style=flat-square&logo=typescript&logoColor=ffffff)](https://www.typescriptlang.org)
@@ -7,7 +7,7 @@
 
 [![npm](https://img.shields.io/npm/v/@kiwilan/fastify-utils.svg?style=flat-square&color=CB3837&logo=npm&logoColor=ffffff&label=npm)](https://www.npmjs.com/package/@kiwilan/fastify-utils)
 
-Fastify Utils is a collection of utilities for [fastify](https://www.fastify.io/).
+`fastify-utils` is a collection of utilities for [fastify](https://www.fastify.io/).
 
 ## Installation
 
@@ -46,7 +46,7 @@ HTTPS=false
 In `setup.js`:
 
 ```javascript
-import { Compiler } from "fastify-utils";
+import { Compiler } from "fastify-utils/compiler";
 
 Compiler.make({
   // options
@@ -70,9 +70,7 @@ In `src/index.ts`:
 ```typescript
 import { LocalServer } from "fastify-utils";
 
-const server = LocalServer.make();
-
-server.start({
+LocalServer.run({
   // options
 });
 ```
