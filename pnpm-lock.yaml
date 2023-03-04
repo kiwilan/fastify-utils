@@ -5,7 +5,7 @@ specifiers:
   '@fastify/cors': ^8.2.0
   '@fastify/env': ^4.2.0
   '@fastify/middie': ^8.1.0
-  '@kiwilan/filesystem': file:~/kiwilan-filesystem-*.tgz
+  '@kiwilan/filesystem': ^0.0.12
   '@types/md5': ^2.3.2
   '@types/node': ^18.14.6
   chalk: ^5.2.0
@@ -25,7 +25,7 @@ dependencies:
   '@fastify/cors': 8.2.0
   '@fastify/env': 4.2.0
   '@fastify/middie': 8.1.0
-  '@kiwilan/filesystem': file:../../kiwilan-filesystem-*.tgz
+  '@kiwilan/filesystem': 0.0.12
   chalk: 5.2.0
   commander: 10.0.0
   conf: 11.0.1
@@ -434,6 +434,14 @@ packages:
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@kiwilan/filesystem/0.0.12:
+    resolution: {integrity: sha512-0XkB3oqsN6Wrw4/PaZn0062h7yBigGxmvX80s4YA0BC9SSm13y9E6/34VCHA1Fik3MMK2aFHaZkt7rVguJvmTA==}
+    dependencies:
+      glob: 9.2.1
+      md5: 2.3.0
+      mime-types: 2.1.35
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -3421,13 +3429,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  file:../../kiwilan-filesystem-*.tgz:
-    resolution: {integrity: sha512-7izkXeo0/KqYD6iFgbz1eMPExp9hrpf1FsgWvzuej+XCOv1bJx85ooWiHRsDwLGEZhnEz72DmIKg2B9zFS9GkQ==, tarball: file:../../kiwilan-filesystem-*.tgz}
-    name: '@kiwilan/filesystem'
-    version: 0.0.11
-    dependencies:
-      glob: 9.2.1
-      md5: 2.3.0
-      mime-types: 2.1.35
-    dev: false
