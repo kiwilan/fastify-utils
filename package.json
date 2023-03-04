@@ -56,9 +56,7 @@
     "compiler": "compiler"
   },
   "scripts": {
-    "build": "pnpm build:lib ; pnpm build:compiler",
-    "build:lib": "tsup --clean",
-    "build:compiler": "tsup --clean --config ./tsup.compiler.config.ts",
+    "build": "tsup --clean",
     "watch": "tsup --watch",
     "lint": "eslint . --ignore-path .gitignore",
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
@@ -71,13 +69,13 @@
     "@fastify/cors": "^8.2.0",
     "@fastify/env": "^4.2.0",
     "@fastify/middie": "^8.1.0",
-    "@kiwilan/filesystem": "^0.0.11",
+    "@kiwilan/filesystem": "file:~/kiwilan-filesystem-*.tgz",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "conf": "^11.0.1",
-    "esbuild": "^0.17.10",
+    "esbuild": "^0.17.11",
     "esbuild-plugin-pino": "^1.2.8",
-    "fastify": "^4.13.0",
+    "fastify": "^4.14.0",
     "md5": "^2.3.0",
     "ofetch": "^1.0.1",
     "tiny-glob": "^0.2.9"
@@ -85,8 +83,8 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.35.3",
     "@types/md5": "^2.3.2",
-    "@types/node": "^18.14.1",
-    "eslint": "^8.34.0",
+    "@types/node": "^18.14.6",
+    "eslint": "^8.35.0",
     "tsup": "^6.6.3",
     "typescript": "^4.9.5"
   }

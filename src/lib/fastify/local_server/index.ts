@@ -1,10 +1,18 @@
 import type { FastifyInstance, FastifyRegisterOptions } from 'fastify'
 import type { FastifyEnvOptions } from '@fastify/env'
 import Fastify from 'fastify'
-import { Environment } from '../env'
+import { Environment } from '../../env'
 import { serverLogger } from './server_logger'
 import { LocalServerStart } from './local_server_start'
 import type { ServerStartOptions } from '@/src/lib/types'
+
+interface ISchema {
+  type: 'object'
+  required: never[]
+  properties: {
+    [key: string]: string
+  }
+}
 
 export class LocalServer {
   protected constructor(
@@ -15,7 +23,9 @@ export class LocalServer {
   }
 
   public static async run(opts: ServerStartOptions): Promise<LocalServer> {
-    const environment = await Environment.make()
+    const env = await Environment.make()
+    // @ts-expect-error - globalThis is global
+    globalThis.dotenv = env.dotenv
 
     const fastify = Fastify({
       logger: await serverLogger(),
@@ -23,7 +33,7 @@ export class LocalServer {
     })
     const self = new LocalServer(fastify, {
       confKey: 'config',
-      schema: environment.getSchema(),
+      schema: this.setFastifySchema(),
       data: process.env,
       dotenv: true,
     })
@@ -34,5 +44,28 @@ export class LocalServer {
     await LocalServerStart.make(self, opts)
 
     return self
+  }
+
+  private static setFastifySchema(): ISchema {
+    const required = globalThis.dotenv
+    const properties = {}
+
+    for (const key in required) {
+      if (Object.prototype.hasOwnProperty.call(required, key)) {
+        // @ts-expect-error - key is string
+        const element = required[key]
+        // @ts-expect-error - key is string
+        properties[element] = {
+          type: 'string',
+          default: '',
+        }
+      }
+    }
+
+    return {
+      type: 'object',
+      required: required as unknown as never[],
+      properties,
+    }
   }
 }

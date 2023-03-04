@@ -1,5 +1,4 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { Environment } from './env'
 
 export class Middleware {
   protected constructor(
@@ -22,7 +21,7 @@ export class Middleware {
   }
 
   private async checkApiKey() {
-    const config = await Environment.make()
+    const env = globalThis.dotenv
     let key = this.query?.api_key
     const headers = this.request.headers
     let authHeader = false
@@ -32,13 +31,13 @@ export class Middleware {
       authHeader = true
     }
 
-    if (config.data.API_KEY) {
+    if (env.API_KEY) {
       if (key === undefined) {
         this.message = '`api_key` query or Bearer token is required.'
         this.abort = true
       }
 
-      if (config.data.API_KEY !== key && key !== undefined) {
+      if (env.API_KEY !== key && key !== undefined) {
         const currentAuth = authHeader
           ? 'Bearer token'
           : '`api_key` query'

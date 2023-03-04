@@ -2,7 +2,6 @@ import fastifyEnv from '@fastify/env'
 import middie from '@fastify/middie'
 import cors from '@fastify/cors'
 import { FsFile, FsPath } from '@kiwilan/filesystem'
-import { Environment } from '../env'
 import { Middleware } from '../Middleware'
 import type { LocalServer } from '.'
 import type { AfterStart, BeforeStart, ServerStartOptions, ServerStartOptionsAutoMiddleware, ServerStartOptionsMiddleware, ServerStartOptionsRegister, Use } from '@/src/lib/types'
@@ -47,26 +46,22 @@ export class LocalServerStart {
   }
 
   private async listen() {
-    const dotenv = await Environment.make()
-
     process.on('SIGTERM', async () => {
       await this.server.fastify.close()
     })
 
     await this.server.fastify.listen({
-      host: dotenv.system.HOST,
-      port: dotenv.system.PORT,
+      host: dotenv.HOST,
+      port: dotenv.PORT,
     })
 
-    console.warn(`Server listening on ${dotenv.system.API_URL}`)
+    console.warn(`Server listening on ${dotenv.API_URL}`)
 
     if (this.afterStart)
       await this.afterStart(dotenv)
   }
 
   private async loadCors() {
-    const dotenv = await Environment.make()
-
     if (this.register)
       this.register(this.server.fastify)
 
@@ -74,7 +69,7 @@ export class LocalServerStart {
 
     if (this.use?.includes('cors')) {
       await this.server.fastify.register(cors, {
-        origin: dotenv.origin,
+        origin: dotenv.ORIGIN,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Accept', 'Origin', 'Authorization', 'X-Requested-With', 'Access-Control-Allow-Origin'],
         credentials: true,
@@ -126,7 +121,6 @@ export class LocalServerStart {
 
   private async loadPluginsAndRoutes() {
     await this.server.fastify.register(fastifyEnv, this.server.options)
-    const dotenv = await Environment.make()
 
     if (this.use?.includes('plugins'))
       await this.load('plugins')

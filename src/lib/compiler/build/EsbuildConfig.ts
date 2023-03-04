@@ -1,4 +1,4 @@
-import type { Plugin } from 'esbuild'
+import type { BuildResult, Plugin } from 'esbuild'
 import { build } from 'esbuild'
 import glob from 'tiny-glob'
 import esbuildPluginPino from 'esbuild-plugin-pino'
@@ -11,8 +11,8 @@ export interface EsbuildConfigOpts {
   callback?: () => Promise<void>
 }
 
-export const esbuildConfig = async (opts: EsbuildConfigOpts): Promise<any> => {
-  const config = async () => {
+export class EsbuildConfig {
+  public static async make(opts: EsbuildConfigOpts): Promise<BuildResult> {
     const entryPoints = await glob('src/**/*.ts')
     if (!opts.plugins)
       opts.plugins = []
@@ -46,18 +46,16 @@ export const esbuildConfig = async (opts: EsbuildConfigOpts): Promise<any> => {
       sourcemap: false,
       banner: {
         js: `
-  import { createRequire } from 'module';
-  import path from 'path';
-  import { fileURLToPath } from 'url';
-  const require = createRequire(import.meta.url);
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  `,
+    import { createRequire } from 'module';
+    import path from 'path';
+    import { fileURLToPath } from 'url';
+    const require = createRequire(import.meta.url);
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    `,
       },
       plugins: opts.plugins,
       external: opts.external,
     })
   }
-
-  return await config()
 }

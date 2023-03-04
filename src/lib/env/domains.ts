@@ -1,14 +1,26 @@
-export const corsDomains = () => {
-  const fromEnvironment = (): string[] => {
-    let domains: string[] = []
-    if (process.env.API_DOMAINS)
-      domains = process.env.API_DOMAINS?.split(',')
+import type { DotenvExtends } from '../types'
 
-    return domains
+export class DotenvDomains {
+  protected constructor(
+    protected data: DotenvExtends,
+    public domains: string[] = [],
+    public allAllowed: boolean = false,
+    public origin: string | string[] = '*',
+  ) {
   }
 
-  const parsed = (): string[] => {
-    const envDomains = fromEnvironment()
+  public static async make(data: DotenvExtends): Promise<DotenvDomains> {
+    const self = new DotenvDomains(data)
+
+    self.domains = self.setDomains()
+    self.allAllowed = self.domains.includes('*')
+    self.origin = self.allAllowed ? '*' : self.domains
+
+    return self
+  }
+
+  private setDomains(): string[] {
+    const envDomains = this.data.API_DOMAINS ?? []
     const domains: string[] = []
     let allow = false
 
@@ -38,10 +50,5 @@ export const corsDomains = () => {
     }
 
     return domains
-  }
-
-  return {
-    fromEnvironment,
-    parsed,
   }
 }

@@ -1,6 +1,5 @@
 import type { FastifyPluginAsync, FastifyReply, FastifyRequest, HTTPMethods } from 'fastify'
 import type { IRoute } from '../types'
-import { Environment } from './env'
 
 interface HttpRequest extends FastifyRequest {}
 interface HttpReply extends FastifyReply {}
@@ -49,7 +48,7 @@ export class Router {
     else
       current = route
 
-    const env = await Environment.make()
+    const env = globalThis.dotenv
 
     let currentRoute: string = current.endpoint
 
@@ -62,7 +61,7 @@ export class Router {
     }
 
     try {
-      const url = new URL(currentRoute, env.system.API_URL)
+      const url = new URL(currentRoute, env.API_URL)
 
       if (current.query) {
         Object.keys(current.query).forEach((key) => {
@@ -86,8 +85,8 @@ export class Router {
    * Create a `Route` from `Request`
    */
   public static routeBuilder = async (req: FastifyRequest): Promise<IRoute> => {
-    const dotenv = await Environment.make()
-    const baseURL = dotenv.data.BASE_URL || ''
+    const dotenv = globalThis.dotenv
+    const baseURL = dotenv.BASE_URL
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const url = req.url.replace(baseURL, '').replace(/\/$/, '')
     const route: IRoute = { endpoint: 'SAMPLE_ENDPOINT' }
