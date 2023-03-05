@@ -24,7 +24,7 @@ export class Compiler {
 
     await FastifyConfig.make()
 
-    await Environment.make()
+    await Environment.make(true)
 
     self.routes = await GenerateRoutes.make()
     self.metadata = await GenerateMetadata.make()

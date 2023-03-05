@@ -13,7 +13,7 @@ export class Environment {
   ) {
   }
 
-  public static async make(): Promise<Environment> {
+  public static async make(printing = false): Promise<Environment> {
     const self = new Environment()
 
     process.env.NODE_ENV = process.env.NODE_ENV || 'development'
@@ -21,7 +21,8 @@ export class Environment {
     self.reader = await self.setReader()
     self.typer = await DotenvTyper.make(self.reader)
     self.data = await self.setData()
-    await self.printTypes()
+    if (printing)
+      await self.printTypes()
 
     self.dotenv = self.data?.values || {}
 

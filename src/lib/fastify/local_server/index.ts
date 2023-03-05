@@ -3,12 +3,12 @@ import type { FastifyEnvOptions } from '@fastify/env'
 import Fastify from 'fastify'
 import { Environment } from '../../env'
 import { serverLogger } from './server_logger'
-import { LocalServerStart } from './local_server_start'
+import { LocalServerStart } from './LocalServerStart'
 import type { ServerStartOptions } from '@/src/lib/types'
 
 interface ISchema {
   type: 'object'
-  required: never[]
+  required: string[]
   properties: {
     [key: string]: string
   }
@@ -31,6 +31,7 @@ export class LocalServer {
       logger: await serverLogger(),
       ignoreTrailingSlash: true,
     })
+
     const self = new LocalServer(fastify, {
       confKey: 'config',
       schema: this.setFastifySchema(),
@@ -47,13 +48,17 @@ export class LocalServer {
   }
 
   private static setFastifySchema(): ISchema {
-    const required = globalThis.dotenv
-    const properties = {}
+    const dotenv = globalThis.dotenv
+    const required: string[] = []
+    const properties: {
+      [key: string]: string
+    } = {}
 
-    for (const key in required) {
-      if (Object.prototype.hasOwnProperty.call(required, key)) {
+    for (const key in dotenv) {
+      if (Object.prototype.hasOwnProperty.call(dotenv, key)) {
+        // required.push(key)
         // @ts-expect-error - key is string
-        const element = required[key]
+        const element = dotenv[key]
         // @ts-expect-error - key is string
         properties[element] = {
           type: 'string',
@@ -64,7 +69,7 @@ export class LocalServer {
 
     return {
       type: 'object',
-      required: required as unknown as never[],
+      required,
       properties,
     }
   }

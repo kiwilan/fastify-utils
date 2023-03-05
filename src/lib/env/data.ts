@@ -33,7 +33,7 @@ export class DotenvData {
 
     self.values = await self.setValues()
     self.values = self.formatValues()
-    self.values = self.setValuesByDefault()
+    self.setValuesByDefault()
     self.values.API_URL = self.formatUrl()
     self.values.IS_DEV = self.values.NODE_ENV === 'development'
 
@@ -55,6 +55,7 @@ export class DotenvData {
       let value = undefined
 
       value = await this.parseReader(key)
+
       // @ts-expect-error - key is string
       values[key] = value
     }
@@ -63,10 +64,10 @@ export class DotenvData {
   }
 
   private async parseReader(key: string): Promise<string | undefined> {
-    if (process.env[key])
+    if (process.env[key] !== undefined)
       return process.env[key]
 
-    if (this.reader?.dotenv[key])
+    if (this.reader?.dotenv[key] !== undefined)
       return this.reader?.dotenv[key]
   }
 
@@ -100,22 +101,16 @@ export class DotenvData {
     return values
   }
 
-  private setValuesByDefault(): object {
-    const values = {}
-
+  private setValuesByDefault(): void {
     for (const key in this.valuesByDefault) {
       // @ts-expect-error - key is string
       if (this.values[key] === undefined) {
-      // @ts-expect-error - key is string
-        values[key] = this.valuesByDefault[key]
-      }
-      else {
-      // @ts-expect-error - key is string
-        values[key] = this.values[key]
+        // @ts-expect-error - key is string
+        delete this.values[key]
+        // @ts-expect-error - key is string
+        this.values[key] = this.valuesByDefault[key]
       }
     }
-
-    return values
   }
 
   private formatUrl(): string {
