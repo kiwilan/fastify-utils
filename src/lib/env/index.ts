@@ -6,9 +6,9 @@ import { DotenvData } from './data'
 
 export class Environment {
   protected constructor(
-    protected reader?: DotenvReader,
-    protected typer?: DotenvTyper,
-    protected data?: DotenvData,
+    public reader?: DotenvReader,
+    public typer?: DotenvTyper,
+    public data?: DotenvData,
     public dotenv?: DotenvExtends,
   ) {
   }

@@ -154,5 +154,13 @@ In `package.json`:
 ## Build
 
 ```bash
-pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-0.0.1.tgz ~/kiwilan-fastify-utils-0.0.1.tgz
+pnpm package
+```
+
+```json
+{
+  "dependencies": {
+    "@kiwilan/fastify-utils": "file:~/kiwilan-fastify-utils-*.tgz"
+  }
+}
 ```

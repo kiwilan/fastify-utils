@@ -1,7 +1,7 @@
 {
   "name": "@kiwilan/fastify-utils",
   "type": "module",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Fastify utility.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -29,14 +29,6 @@
     "./syn": {
       "require": "./dist/syn.cjs",
       "import": "./dist/syn.js"
-    },
-    "./schema": {
-      "require": "./dist/schema.json",
-      "import": "./dist/schema.json"
-    },
-    "./compiler": {
-      "require": "./compiler/index.cjs",
-      "import": "./compiler/index.js"
     }
   },
   "main": "./dist/index.js",
@@ -52,8 +44,7 @@
   ],
   "directories": {
     "dist": "dist",
-    "lib": "lib",
-    "compiler": "compiler"
+    "lib": "lib"
   },
   "scripts": {
     "build": "tsup --clean",
@@ -69,7 +60,7 @@
     "@fastify/cors": "^8.2.0",
     "@fastify/env": "^4.2.0",
     "@fastify/middie": "^8.1.0",
-    "@kiwilan/filesystem": "^0.0.13",
+    "@kiwilan/filesystem": "^0.0.15",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "conf": "^11.0.1",
