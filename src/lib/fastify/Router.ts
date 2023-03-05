@@ -38,17 +38,15 @@ export class Router {
   /**
    * Create an url from `Endpoint` or `Route`
    */
-  public static route = async (route: Route.Endpoint | IRoute, params?: {
+  public static route = (route: Route.Endpoint | IRoute, params?: {
     [key: string]: string | number | undefined
-  }): Promise<string> => {
+  }): string => {
     let current: IRoute = { endpoint: 'SAMPLE_ENDPOINT' }
 
     if (!Router.isRoute(route))
       current = { endpoint: route }
     else
       current = route
-
-    const env = globalThis.dotenv
 
     let currentRoute: string = current.endpoint
 
@@ -61,7 +59,7 @@ export class Router {
     }
 
     try {
-      const url = new URL(currentRoute, env.API_URL)
+      const url = new URL(currentRoute, dotenv.API_URL)
 
       if (current.query) {
         Object.keys(current.query).forEach((key) => {
