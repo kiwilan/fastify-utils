@@ -68,5 +68,6 @@ declare global {
 
     const path = FsPath.root('src/dotenv.d.ts')
     await FsFile.put(path, content)
+    await FsFile.addToGitIgnore(path)
   }
 }
