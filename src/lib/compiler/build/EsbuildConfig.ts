@@ -21,7 +21,7 @@ export class EsbuildConfig {
       opts.plugins.push(nativeNodeModules)
 
     opts.plugins.push(
-      esbuildPluginPino({ transports: ['pino-pretty', 'pino-loki'] }),
+      esbuildPluginPino({ transports: ['pino-pretty'] }),
     )
 
     if (opts.callback)
