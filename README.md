@@ -46,7 +46,7 @@ HTTPS=false
 In `setup.js`:
 
 ```javascript
-import { Compiler } from "fastify-utils/compiler";
+import { Compiler } from "fastify-utils";
 
 Compiler.make({
   // options
