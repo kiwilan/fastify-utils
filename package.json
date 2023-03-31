@@ -57,26 +57,26 @@
     "package": "rm -f kiwilan-fastify-utils-*.tgz ; pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils-*.tgz"
   },
   "dependencies": {
-    "@fastify/cors": "^8.2.0",
+    "@fastify/cors": "^8.2.1",
     "@fastify/env": "^4.2.0",
     "@fastify/middie": "^8.1.0",
     "@kiwilan/filesystem": "^0.0.16",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "conf": "^11.0.1",
-    "esbuild": "^0.17.11",
-    "esbuild-plugin-pino": "^1.2.8",
-    "fastify": "^4.14.1",
+    "esbuild": "^0.17.14",
+    "esbuild-plugin-pino": "^1.3.0",
+    "fastify": "^4.15.0",
     "md5": "^2.3.0",
     "ofetch": "^1.0.1",
     "tiny-glob": "^0.2.9"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.36.0",
+    "@antfu/eslint-config": "^0.38.2",
     "@types/md5": "^2.3.2",
-    "@types/node": "^18.14.6",
-    "eslint": "^8.35.0",
-    "tsup": "^6.6.3",
-    "typescript": "^4.9.5"
+    "@types/node": "^18.15.11",
+    "eslint": "^8.37.0",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.3"
   }
 }
