@@ -17,6 +17,7 @@ interface Dotenv {
   API_DOMAINS_ALL: boolean
   ORIGIN: string
   API_KEY: string | false
+  CLUSTER: boolean
 }
 
 declare global {

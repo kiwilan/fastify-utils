@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from 'node:url'
 import { FsFile } from '@kiwilan/filesystem'
 import { Environment } from './env'
 

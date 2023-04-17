@@ -29,6 +29,7 @@ export class DotenvData {
       API_URL: undefined,
       HTTPS: false,
       ORIGIN: '*',
+      CLUSTER: false,
     }
 
     self.values = await self.setValues()

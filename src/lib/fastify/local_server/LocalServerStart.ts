@@ -1,3 +1,5 @@
+import os from 'node:os'
+import cluster from 'node:cluster'
 import fastifyEnv from '@fastify/env'
 import middie from '@fastify/middie'
 import cors from '@fastify/cors'
@@ -32,15 +34,26 @@ export class LocalServerStart {
 
     self.setOptions()
 
+    if (dotenv.CLUSTER) {
+      self.cluster(() => {
+        self.start()
+      })
+    }
+    else {
+      self.start()
+    }
+  }
+
+  private async start() {
     try {
-      await self.loadPluginsAndRoutes()
-      await self.loadMiddlewares()
-      await self.loadCors()
-      await self.listen()
+      await this.loadPluginsAndRoutes()
+      await this.loadMiddlewares()
+      await this.loadCors()
+      await this.listen()
     }
     catch (error) {
       console.error(`Error: ${error}`)
-      self.server.fastify.log.error(error)
+      this.server.fastify.log.error(error)
       process.exit(1)
     }
   }
@@ -130,6 +143,26 @@ export class LocalServerStart {
 
     if (this.beforeStart)
       await this.beforeStart(this.server.fastify, dotenv, this.server.isDev)
+  }
+
+  private cluster(callback: () => void) {
+    const clusterWorkerSize = os.cpus().length
+    if (clusterWorkerSize < 1) {
+      callback()
+      return
+    }
+
+    if (cluster.isPrimary) {
+      for (let i = 0; i < clusterWorkerSize; i++)
+        cluster.fork()
+
+      cluster.on('exit', (worker) => {
+        console.error('Worker', worker.id, ' has exited.')
+      })
+    }
+    else {
+      callback()
+    }
   }
 
   private async load(type: 'routes' | 'plugins'): Promise<string[]> {

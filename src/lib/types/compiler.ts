@@ -15,6 +15,7 @@ export interface DotenvDefault {
   API_DOMAINS_ALL?: boolean
   ORIGIN?: string | string[]
   API_KEY?: string | false
+  CLUSTER?: boolean
 }
 export interface DotenvExtends extends DotenvDefault {
   [key: string]: any

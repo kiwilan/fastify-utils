@@ -33,6 +33,7 @@ export class DotenvTyper {
       API_DOMAINS_ALL: 'boolean',
       ORIGIN: 'string',
       API_KEY: 'string | false',
+      CLUSTER: 'boolean',
     }
 
     const currentTypes = this.types || {}
@@ -92,6 +93,7 @@ export class DotenvTyper {
       API_DOMAINS_ALL: 'boolean',
       ORIGIN: 'string',
       API_KEY: 'string | false',
+      CLUSTER: 'boolean',
     }
 
     // @ts-expect-error - key is string
