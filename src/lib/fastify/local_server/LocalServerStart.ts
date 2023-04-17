@@ -156,8 +156,16 @@ export class LocalServerStart {
       for (let i = 0; i < clusterWorkerSize; i++)
         cluster.fork()
 
-      cluster.on('exit', (worker) => {
-        console.error('Worker', worker.id, ' has exited.')
+      if (cluster.isWorker) {
+        setTimeout(() => {
+          process.exit(1) // death by random timeout
+        }, Math.random() * 100000)
+      }
+
+      cluster.on('exit', (worker, code, signal) => {
+        console.error('Worker', worker.id, 'has exited with signal', signal)
+        if (code !== 0 && !worker.exitedAfterDisconnect)
+          cluster.fork()
       })
     }
     else {
