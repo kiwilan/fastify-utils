@@ -41,6 +41,8 @@ LOG_LEVEL=debug      # debug | error | fatal  | info | trace | warn | silent
 PORT=3000
 BASE_URL=localhost
 HTTPS=false
+
+CLUSTER=false
 ```
 
 In `setup.js`:
