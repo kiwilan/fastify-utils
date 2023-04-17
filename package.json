@@ -25,18 +25,11 @@
     ".": {
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
-    },
-    "./syn": {
-      "require": "./dist/syn.cjs",
-      "import": "./dist/syn.js"
     }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "syn": "./dist/syn.js"
-  },
   "files": [
     "dist",
     "compiler",
@@ -53,7 +46,6 @@
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "syn": "./src/syn.js",
     "package": "rm -f kiwilan-fastify-utils-*.tgz ; pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils-*.tgz"
   },
   "dependencies": {
