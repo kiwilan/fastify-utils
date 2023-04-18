@@ -7,7 +7,7 @@
 
 [![npm](https://img.shields.io/npm/v/@kiwilan/fastify-utils.svg?style=flat-square&color=CB3837&logo=npm&logoColor=ffffff&label=npm)](https://www.npmjs.com/package/@kiwilan/fastify-utils)
 
-`fastify-utils` is a collection of utilities for [fastify](https://www.fastify.io/).
+Collection of utilities for [fastify](https://www.fastify.io/) framework, built to improve DX.
 
 ## Installation
 

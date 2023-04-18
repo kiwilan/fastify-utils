@@ -2,7 +2,7 @@
   "name": "@kiwilan/fastify-utils",
   "type": "module",
   "version": "0.1.31",
-  "description": "Fastify utility.",
+  "description": "Collection of utilities for fastify framework, built to improve DX.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/kiwilan/fastify-utils",
