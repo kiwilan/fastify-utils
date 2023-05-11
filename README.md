@@ -5,7 +5,7 @@
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg">
       <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg">
-      <img alt="Social oEmbed" src="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg" width="750" height="150" style="max-width: 100%; object-fit: cover;">
+      <img alt="Social oEmbed" src="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg" width="750" height="150">
     </picture>
   </a>
 </p>
@@ -17,7 +17,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@kiwilan/fastify-utils"><img src="https://img.shields.io/npm/v/@kiwilan/fastify-utils.svg?style=flat-square&colorA=18181B&colorB=339933" alt="NPM"></a>
   <a href="https://www.npmjs.com/package/@kiwilan/fastify-utils"><img src="https://img.shields.io/npm/dt/@kiwilan/fastify-utils.svg?style=flat-square&colorA=18181B&colorB=339933" alt="Downloads"></a>
-  <a href="https://github.com/kiwilan/node-filesystem/blob/main/LICENSE"><img src=https://img.shields.io/github/license/kiwilan/node-filesystem.svg?style=flat-square&colorA=18181B&colorB=339933"" alt="License"></a>
+  <a href="https://github.com/kiwilan/node-filesystem/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kiwilan/node-filesystem.svg?style=flat-square&colorA=18181B&colorB=339933" alt="License"></a>
 </p>
 <p align="center">
   <a href="https://www.fastify.io/"><img src="https://img.shields.io/badge/dynamic/json?label=Fastify&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=dependencies.fastify&style=flat-square&colorA=18181B&colorB=339933" alt="Fastify"></a>
