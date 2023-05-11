@@ -5,7 +5,7 @@
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg">
       <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg">
-      <img alt="Social oEmbed" src="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg" width="750" height="150">
+      <img alt="Social oEmbed" src="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg" width="750" height="100%">
     </picture>
   </a>
 </p>
@@ -92,9 +92,9 @@ In `package.json`:
 In `src/index.ts`:
 
 ```typescript
-import { LocalServer } from "fastify-utils";
+import { Server } from "fastify-utils";
 
-LocalServer.run({
+Server.run({
   // options
 });
 ```
