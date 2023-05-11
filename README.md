@@ -1,13 +1,42 @@
 # Kiwilan's fastify-utils
 
-[![fastify](https://img.shields.io/static/v1?label=Fastify&message=v4.x&color=000000&style=flat-square&logo=fastify&logoColor=ffffff)](https://www.fastify.io)
-[![typescript](https://img.shields.io/static/v1?label=TypeScript&message=v4.9&color=3178C6&style=flat-square&logo=typescript&logoColor=ffffff)](https://www.typescriptlang.org)
-[![node.js](https://img.shields.io/static/v1?label=Node.js&message=v18.x&color=339933&style=flat-square&logo=node.js&logoColor=ffffff)](https://nodejs.org/en)
-[![pnpm](https://img.shields.io/static/v1?label=pnpm&message=v7.x&color=F69220&style=flat-square&logo=pnpm&logoColor=ffffff)](https://pnpm.io)
+[![node][node-version-src]][node-version-href]
+[![fastify][fastify-version-src]][fastify-version-href]
+[![typescript][typescript-version-src]][typescript-version-href]
 
-[![npm](https://img.shields.io/npm/v/@kiwilan/fastify-utils.svg?style=flat-square&color=CB3837&logo=npm&logoColor=ffffff&label=npm)](https://www.npmjs.com/package/@kiwilan/fastify-utils)
+[![version][version-src]][version-href]
+[![downloads][downloads-src]][downloads-href]
+[![license][license-src]][license-href]
+
+[![tests][tests-src]][tests-href]
+[![codecov][codecov-src]][codecov-href]
 
 Collection of utilities for [fastify](https://www.fastify.io/) framework, built to improve DX.
+
+<p align="center">
+  <a href="https://github.com/kiwilan/fastify-utils" target="_blank">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg">
+      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg">
+       <img alt="Social oEmbed" src="https://raw.githubusercontent.com/kiwilan/fastify-utils/main/public/og.jpg" width="750" height="150" style="max-width: 100%;">
+    </picture>
+  </a>
+</p>
+
+<p align="center">
+  <strong>API to offer OpenGraph meta or oEmbed media.</strong>
+</p>
+
+<p align="center">
+  <a href="https://nodejs.org/en"><img src="https://img.shields.io/static/v1?label=Node.js&message=v16.x&color=339933&style=flat-square&logo=node.js&logoColor=ffffff" alt="Node.js"></a>
+  <a href="https://www.fastify.io"><img src="https://img.shields.io/static/v1?label=Fastify&message=v4.x&color=000000&style=flat-square&logo=fastify&logoColor=ffffff" alt="Fastify"></a>
+  <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/static/v1?label=TypeScript&message=v4.8.x&color=3178C6&style=flat-square&logo=typescript&logoColor=ffffff" alt="TypeScript"></a>
+</p>
+<p align="center">
+  <a href="https://esbuild.github.io"><img src="https://img.shields.io/static/v1?label=esbuild&message=ESM&color=FFCF00&style=flat-square&logo=esbuild&logoColor=ffffff" alt="esbuild"></a>
+  <a href="https://gitlab.com/ewilan-riviere/fastify-utils/-/pipelines"><img src="https://gitlab.com/ewilan-riviere/fastify-utils/badges/main/pipeline.svg" alt="Pipeline"></a>
+  <a href="https://github.com/kiwilan/fastify-utils/actions/workflows/CI.yml"><img src="https://github.com/kiwilan/fastify-utils/actions/workflows/CI.yml/badge.svg" alt="CI"></a>
+</p>
 
 ## Installation
 
@@ -148,7 +177,7 @@ In `package.json`:
   "scripts": {
     "clean": "rimraf build && rimraf node_modules && pnpm install",
     "start": "node build/index.mjs",
-    "pm2": "pm2 start --name 'social-oembed' './build/index.mjs'"
+    "pm2": "pm2 start --name 'fastify-utils' './build/index.mjs'"
   }
 }
 ```
@@ -166,3 +195,24 @@ pnpm package
   }
 }
 ```
+
+## License
+
+[MIT](LICENSE)
+
+[version-src]: https://img.shields.io/npm/v/@kiwilan/fastify-utils.svg?style=flat-square&colorA=18181B&colorB=339933
+[version-href]: https://www.npmjs.com/package/@kiwilan/fastify-utils
+[fastify-version-src]: https://img.shields.io/badge/dynamic/json?label=Fastify&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=dependencies.fastify&style=flat-square&colorA=18181B&colorB=339933
+[fastify-version-href]: https://www.fastify.io/
+[typescript-version-src]: https://img.shields.io/badge/dynamic/json?label=TypeScript&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=devDependencies.typescript&style=flat-square&colorA=18181B&colorB=339933
+[typescript-version-href]: https://www.typescriptlang.org/
+[node-version-src]: https://img.shields.io/badge/dynamic/json?label=Node.js&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=engines.node&style=flat-square&colorA=18181B&colorB=339933
+[node-version-href]: https://www.php.net/
+[downloads-src]: https://img.shields.io/npm/dt/@kiwilan/fastify-utils.svg?style=flat-square&colorA=18181B&colorB=339933
+[downloads-href]: https://www.npmjs.com/package/@kiwilan/fastify-utils
+[license-src]: https://img.shields.io/github/license/kiwilan/node-filesystem.svg?style=flat-square&colorA=18181B&colorB=339933
+[license-href]: https://github.com/kiwilan/node-filesystem/blob/main/README.md
+[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/node-filesystem/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
+[tests-href]: https://github.com/kiwilan/node-filesystem/actions/workflows/run-tests.yml
+[codecov-src]: https://codecov.io/gh/kiwilan/node-filesystem/branch/main/graph/badge.svg?token=SHQV8D60YV
+[codecov-href]: https://codecov.io/gh/kiwilan/node-filesystem
