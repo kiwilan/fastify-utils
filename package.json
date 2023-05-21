@@ -1,7 +1,7 @@
 {
   "name": "@kiwilan/fastify-utils",
   "type": "module",
-  "version": "0.1.31",
+  "version": "0.2.0",
   "description": "Collection of utilities for fastify framework, built to improve DX.",
   "author": "Ewilan Rivière <ewilan.riviere@gmail.com>",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "package": "rm -f kiwilan-fastify-utils-*.tgz ; pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils-*.tgz"
+    "package": "rm -f kiwilan-fastify-utils-*.tgz ; pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils.tgz"
   },
   "dependencies": {
     "@fastify/cors": "^8.2.1",

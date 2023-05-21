@@ -35,6 +35,9 @@ export class DotenvData {
     self.values = await self.setValues()
     self.values = self.formatValues()
     self.setValuesByDefault()
+    if (self.values.BASE_URL === '/')
+      self.values.BASE_URL = 'localhost'
+
     self.values.API_URL = self.formatUrl()
     self.values.IS_DEV = self.values.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
 
@@ -60,6 +63,7 @@ export class DotenvData {
       // @ts-expect-error - key is string
       values[key] = value
     }
+    console.log(values)
 
     return values
   }
@@ -125,9 +129,9 @@ export class DotenvData {
 
     const isDev = nodeEnv === 'development'
 
-    const prefix = https ? 'https' : 'http'
+    const scheme = https ? 'https' : 'http'
     const suffix = isDev ? `:${port}` : ''
 
-    return `${prefix}://${baseURL}${suffix}`
+    return `${scheme}://${baseURL}${suffix}`
   }
 }

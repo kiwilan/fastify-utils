@@ -184,7 +184,7 @@ pnpm package
 ```json
 {
   "dependencies": {
-    "@kiwilan/fastify-utils": "file:~/kiwilan-fastify-utils-*.tgz"
+    "@kiwilan/fastify-utils": "file:~/kiwilan-fastify-utils.tgz"
   }
 }
 ```
