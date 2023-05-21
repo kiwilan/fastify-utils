@@ -26,7 +26,7 @@
 </p>
 <p align="center">
   <a href="https://github.com/kiwilan/fastify-utils/actions/workflows/run-tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/kiwilan/fastify-utils/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B" alt="tests"></a>
-  <a href="https://codecov.io/gh/kiwilan/fastify-utils"><img src="https://codecov.io/gh/kiwilan/fastify-utils/branch/main/graph/badge.svg?token=SHQV8D60YV" alt="codecov"></a>
+  <a href="https://codecov.io/gh/kiwilan/fastify-utils"><img src="https://codecov.io/gh/kiwilan/fastify-utils/branch/main/graph/badge.svg?token=96OXNK5PV5" alt="codecov"></a>
 </p>
 
 ## Installation
