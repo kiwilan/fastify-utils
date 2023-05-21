@@ -5,12 +5,12 @@ import middie from '@fastify/middie'
 import cors from '@fastify/cors'
 import { FsFile, FsPath } from '@kiwilan/filesystem'
 import { Middleware } from '../Middleware'
-import type { LocalServer } from '.'
-import type { AfterStart, BeforeStart, ServerStartOptions, ServerStartOptionsAutoMiddleware, ServerStartOptionsMiddleware, ServerStartOptionsRegister, Use } from '@/src/lib/types'
+import type { Server } from '.'
+import type { AfterStart, BeforeStart, ServerStartOptions, ServerStartOptionsAutoMiddleware, ServerStartOptionsMiddleware, ServerStartOptionsRegister, Use } from '@/src/types'
 
-export class LocalServerStart {
+export class ServerStart {
   protected constructor(
-    protected server: LocalServer,
+    protected server: Server,
     protected beforeStart?: BeforeStart,
     protected afterStart?: AfterStart,
     protected use?: Use[],
@@ -21,8 +21,8 @@ export class LocalServerStart {
   ) {
   }
 
-  public static async make(server: LocalServer, opts: ServerStartOptions): Promise<void> {
-    const self = new LocalServerStart(server)
+  public static async make(server: Server, opts: ServerStartOptions): Promise<void> {
+    const self = new ServerStart(server)
 
     self.beforeStart = opts.beforeStart
     self.afterStart = opts.afterStart
@@ -54,7 +54,8 @@ export class LocalServerStart {
     catch (error) {
       console.error(`Error: ${error}`)
       this.server.fastify.log.error(error)
-      process.exit(1)
+      if (process.env.NODE_ENV !== 'test')
+        process.exit(1)
     }
   }
 

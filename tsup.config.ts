@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup'
 export default defineConfig({
   name: 'fastify-utils',
   entry: {
-    index: 'src/lib/index.ts',
+    index: 'src/index.ts',
   },
   format: ['esm', 'cjs'],
   // outExtension({ format }) {

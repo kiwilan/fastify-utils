@@ -1,6 +1,6 @@
 import { $fetch } from 'ofetch'
-import { HttpResponse } from './http_response'
-import type { Ctx, FetchableOptions, FetchableParams, Get, Post, ResponseMethod, URLParams } from '@/src/lib/types'
+import { HttpResponse } from './HttpResponse'
+import type { Ctx, FetchableOptions, FetchableParams, Get, Post, ResponseMethod, URLParams } from '@/src/types'
 
 export class HttpFetch {
   protected constructor(

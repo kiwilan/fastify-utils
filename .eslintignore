@@ -1,0 +1,6 @@
+.vscode
+coverage
+dist
+lib
+public
+node_modules

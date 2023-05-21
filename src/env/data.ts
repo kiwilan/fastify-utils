@@ -35,8 +35,11 @@ export class DotenvData {
     self.values = await self.setValues()
     self.values = self.formatValues()
     self.setValuesByDefault()
+    if (self.values.BASE_URL === '/')
+      self.values.BASE_URL = 'localhost'
+
     self.values.API_URL = self.formatUrl()
-    self.values.IS_DEV = self.values.NODE_ENV === 'development'
+    self.values.IS_DEV = self.values.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
 
     const domains = await DotenvDomains.make(self.values)
     self.values.API_DOMAINS_PARSED = domains.domains
@@ -125,9 +128,9 @@ export class DotenvData {
 
     const isDev = nodeEnv === 'development'
 
-    const prefix = https ? 'https' : 'http'
+    const scheme = https ? 'https' : 'http'
     const suffix = isDev ? `:${port}` : ''
 
-    return `${prefix}://${baseURL}${suffix}`
+    return `${scheme}://${baseURL}${suffix}`
   }
 }
