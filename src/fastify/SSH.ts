@@ -1,5 +1,5 @@
-import { chmod, unlink, writeFile } from 'fs/promises'
-import { execSync } from 'child_process'
+import { chmod, unlink, writeFile } from 'node:fs/promises'
+import { execSync } from 'node:child_process'
 
 export interface SshEnvironmentConfig {
   sshHost?: string

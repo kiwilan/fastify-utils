@@ -2,9 +2,9 @@ import type { FastifyInstance, FastifyRegisterOptions } from 'fastify'
 import type { FastifyEnvOptions } from '@fastify/env'
 import Fastify from 'fastify'
 import { Environment } from '../../env'
-import { serverLogger } from './server_logger'
-import { LocalServerStart } from './LocalServerStart'
-import type { ServerStartOptions } from '@/src/lib/types'
+import { serverLogger } from './logger'
+import { ServerStart } from './ServerStart'
+import type { ServerStartOptions } from '@/src/types'
 
 interface ISchema {
   type: 'object'
@@ -14,7 +14,7 @@ interface ISchema {
   }
 }
 
-export class LocalServer {
+export class Server {
   protected constructor(
     public fastify: FastifyInstance,
     public options: FastifyRegisterOptions<FastifyEnvOptions> | undefined,
@@ -22,7 +22,7 @@ export class LocalServer {
   ) {
   }
 
-  public static async run(opts: ServerStartOptions): Promise<LocalServer> {
+  public static async run(opts: ServerStartOptions): Promise<Server> {
     const env = await Environment.make()
     // @ts-expect-error - globalThis is global
     globalThis.dotenv = env.dotenv
@@ -32,7 +32,7 @@ export class LocalServer {
       ignoreTrailingSlash: true,
     })
 
-    const self = new LocalServer(fastify, {
+    const self = new Server(fastify, {
       confKey: 'config',
       schema: this.setFastifySchema(),
       data: process.env,
@@ -40,9 +40,9 @@ export class LocalServer {
     })
 
     console.error('Server initialized', process.env.NODE_ENV)
-    self.isDev = process.env.NODE_ENV === 'development'
+    self.isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
 
-    await LocalServerStart.make(self, opts)
+    await ServerStart.make(self, opts)
 
     return self
   }

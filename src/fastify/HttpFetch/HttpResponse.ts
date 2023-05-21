@@ -1,4 +1,4 @@
-import type { Ctx, FetchableOptions, FetchableParams, Response } from '@/src/lib/types'
+import type { Ctx, FetchableOptions, FetchableParams, Response } from '@/src/types'
 
 interface Request<T> {
   options: FetchableOptions

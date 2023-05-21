@@ -17,7 +17,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@kiwilan/fastify-utils"><img src="https://img.shields.io/npm/v/@kiwilan/fastify-utils.svg?style=flat-square&colorA=18181B&colorB=339933" alt="NPM"></a>
   <a href="https://www.npmjs.com/package/@kiwilan/fastify-utils"><img src="https://img.shields.io/npm/dt/@kiwilan/fastify-utils.svg?style=flat-square&colorA=18181B&colorB=339933" alt="Downloads"></a>
-  <a href="https://github.com/kiwilan/node-filesystem/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kiwilan/node-filesystem.svg?style=flat-square&colorA=18181B&colorB=339933" alt="License"></a>
+  <a href="https://github.com/kiwilan/fastify-utils/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kiwilan/fastify-utils.svg?style=flat-square&colorA=18181B&colorB=339933" alt="License"></a>
 </p>
 <p align="center">
   <a href="https://www.fastify.io/"><img src="https://img.shields.io/badge/dynamic/json?label=Fastify&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=dependencies.fastify&style=flat-square&colorA=18181B&colorB=339933" alt="Fastify"></a>
@@ -25,8 +25,8 @@
   <a href="https://nodejs.org/en"><img src="https://img.shields.io/badge/dynamic/json?label=Node.js&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=engines.node&style=flat-square&colorA=18181B&colorB=339933" alt="Node.js"></a>
 </p>
 <p align="center">
-  <a href="https://github.com/kiwilan/node-filesystem/actions/workflows/run-tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/kiwilan/node-filesystem/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B" alt="tests"></a>
-  <a href="https://codecov.io/gh/kiwilan/node-filesystem"><img src="https://codecov.io/gh/kiwilan/node-filesystem/branch/main/graph/badge.svg?token=SHQV8D60YV" alt="codecov"></a>
+  <a href="https://github.com/kiwilan/fastify-utils/actions/workflows/run-tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/kiwilan/fastify-utils/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B" alt="tests"></a>
+  <a href="https://codecov.io/gh/kiwilan/fastify-utils"><img src="https://codecov.io/gh/kiwilan/fastify-utils/branch/main/graph/badge.svg?token=SHQV8D60YV" alt="codecov"></a>
 </p>
 
 ## Installation

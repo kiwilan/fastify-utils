@@ -55,12 +55,12 @@
   "dependencies": {
     "@fastify/cors": "^8.2.1",
     "@fastify/env": "^4.2.0",
-    "@fastify/middie": "^8.2.0",
+    "@fastify/middie": "^8.3.0",
     "@kiwilan/filesystem": "^0.0.18",
     "chalk": "^5.2.0",
     "commander": "^10.0.1",
     "conf": "^11.0.1",
-    "esbuild": "^0.17.18",
+    "esbuild": "^0.17.19",
     "esbuild-plugin-pino": "^2.0.0",
     "fastify": "^4.17.0",
     "md5": "^2.3.0",
@@ -68,15 +68,15 @@
     "tiny-glob": "^0.2.9"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.38.6",
+    "@antfu/eslint-config": "^0.39.1",
     "@types/md5": "^2.3.2",
-    "@types/node": "^20.1.2",
-    "@vitest/coverage-c8": "^0.31.0",
+    "@types/node": "^20.2.1",
+    "@vitest/coverage-c8": "^0.31.1",
     "c8": "^7.13.0",
-    "eslint": "^8.40.0",
+    "eslint": "^8.41.0",
     "pino-pretty": "^10.0.0",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
-    "vitest": "^0.31.0"
+    "vitest": "^0.31.1"
   }
 }

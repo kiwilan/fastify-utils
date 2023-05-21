@@ -36,7 +36,7 @@ export class DotenvData {
     self.values = self.formatValues()
     self.setValuesByDefault()
     self.values.API_URL = self.formatUrl()
-    self.values.IS_DEV = self.values.NODE_ENV === 'development'
+    self.values.IS_DEV = self.values.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
 
     const domains = await DotenvDomains.make(self.values)
     self.values.API_DOMAINS_PARSED = domains.domains

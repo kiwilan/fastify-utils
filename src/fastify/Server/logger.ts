@@ -1,4 +1,4 @@
-export const serverLogger = async () => {
+export async function serverLogger() {
   const logger = process.env.NODE_ENV_LOG === 'production'
     ? { level: dotenv.LOG_LEVEL }
     : {
