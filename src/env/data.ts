@@ -63,7 +63,6 @@ export class DotenvData {
       // @ts-expect-error - key is string
       values[key] = value
     }
-    console.log(values)
 
     return values
   }

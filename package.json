@@ -21,10 +21,6 @@
     "cors",
     "env"
   ],
-  "engines": {
-    "pnpm": ">=8.0.0",
-    "node": ">=16.0.0"
-  },
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -39,6 +35,10 @@
     "compiler",
     "lib"
   ],
+  "engines": {
+    "pnpm": ">=8.0.0",
+    "node": ">=16.0.0"
+  },
   "directories": {
     "dist": "dist",
     "lib": "lib"

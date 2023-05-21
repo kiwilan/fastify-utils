@@ -83,10 +83,10 @@ export class Router {
    * Create a `Route` from `Request`
    */
   public static routeBuilder = async (req: FastifyRequest): Promise<IRoute> => {
-    const dotenv = globalThis.dotenv
-    const baseURL = dotenv.BASE_URL
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const url = req.url.replace(baseURL, '').replace(/\/$/, '')
+    // const dotenv = globalThis.dotenv
+    // const baseURL = dotenv.BASE_URL
+
+    // const url = req.url.replace(baseURL, '').replace(/\/$/, '')
     const route: IRoute = { endpoint: 'SAMPLE_ENDPOINT' }
 
     // const splitted = url.split('?')

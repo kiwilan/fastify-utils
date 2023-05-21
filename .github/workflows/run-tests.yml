@@ -18,11 +18,12 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "latest"
+          node-version: latest
       - uses: pnpm/action-setup@v2
         with:
           version: 8.1.1
       - run: pnpm install
+      - run: pnpm lint
       - run: pnpm test
       - run: pnpm coverage
 
