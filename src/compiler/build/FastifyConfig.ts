@@ -46,8 +46,9 @@ export class FastifyConfig {
     }
 
     const path = FsPath.root('.fastify/tsconfig.json')
-
-    await FsFile.put(path, JSON.stringify(extendsConfig, null, 2))
+    const isExists = await FsFile.exists(path)
+    if (!isExists)
+      await FsFile.put(path, JSON.stringify(extendsConfig, null, 2))
   }
 
   private async tsConfig(): Promise<void> {
