@@ -164,7 +164,7 @@ export class ServerStart {
       }
 
       cluster.on('exit', (worker, code, signal) => {
-        console.error('Worker', worker.id, 'has exited with signal', signal)
+        console.debug('Worker', worker.id, 'has exited with signal', signal)
         if (code !== 0 && !worker.exitedAfterDisconnect)
           cluster.fork()
       })
@@ -175,7 +175,7 @@ export class ServerStart {
   }
 
   private async load(type: 'routes' | 'plugins'): Promise<string[]> {
-    console.error(`Loading ${type}...`)
+    console.debug(`Loading ${type}...`)
 
     const baseDir = `${this.server.isDev ? 'src' : 'build'}`
     const path = FsPath.root(`${baseDir}/${type}`)
@@ -208,6 +208,6 @@ export class ServerStart {
     if (!this.use?.length)
       this.use = ['cors', 'middlewares', 'plugins', 'routes']
 
-    console.error(`Current environment: ${this.server.isDev ? 'development' : 'production'}`)
+    console.debug(`Current environment: ${this.server.isDev ? 'development' : 'production'}`)
   }
 }

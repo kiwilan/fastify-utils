@@ -39,7 +39,7 @@ export class Server {
       dotenv: true,
     })
 
-    console.error('Server initialized', process.env.NODE_ENV)
+    console.debug('Server initialized', process.env.NODE_ENV)
     self.isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
 
     await ServerStart.make(self, opts)
