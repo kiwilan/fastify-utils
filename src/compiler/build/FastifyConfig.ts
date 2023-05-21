@@ -67,12 +67,10 @@ export class FastifyConfig {
     }
 
     const path = FsPath.root('tsconfig.json')
-    const exists = FsFile.exists(path)
+    const exists = await FsFile.exists(path)
 
     if (!exists)
-      return
-
-    await FsFile.put('tsconfig.json', JSON.stringify(userConfig, null, 2))
+      await FsFile.put('tsconfig.json', JSON.stringify(userConfig, null, 2))
   }
 
   private async dotenvSchemaConfig(): Promise<void> {

@@ -20,9 +20,9 @@
   <a href="https://github.com/kiwilan/fastify-utils/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kiwilan/fastify-utils.svg?style=flat-square&colorA=18181B&colorB=339933" alt="License"></a>
 </p>
 <p align="center">
-  <a href="https://www.fastify.io/"><img src="https://img.shields.io/badge/dynamic/json?label=Fastify&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=dependencies.fastify&style=flat-square&colorA=18181B&colorB=339933" alt="Fastify"></a>
-  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/dynamic/json?label=TypeScript&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=devDependencies.typescript&style=flat-square&colorA=18181B&colorB=339933" alt="TypeScript"></a>
-  <a href="https://nodejs.org/en"><img src="https://img.shields.io/badge/dynamic/json?label=Node.js&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=engines.node&style=flat-square&colorA=18181B&colorB=339933" alt="Node.js"></a>
+  <a href="https://www.fastify.io/"><img src="https://img.shields.io/badge/dynamic/json?label=fastify&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=dependencies.fastify&style=flat-square&colorA=18181B&colorB=339933" alt="Fastify"></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/dynamic/json?label=typescript&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=devDependencies.typescript&style=flat-square&colorA=18181B&colorB=339933" alt="TypeScript"></a>
+  <a href="https://nodejs.org/en"><img src="https://img.shields.io/badge/dynamic/json?label=node.js&url=https://raw.githubusercontent.com/kiwilan/fastify-utils/main/package.json&query=engines.node&style=flat-square&colorA=18181B&colorB=339933" alt="Node.js"></a>
 </p>
 <p align="center">
   <a href="https://github.com/kiwilan/fastify-utils/actions/workflows/run-tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/kiwilan/fastify-utils/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B" alt="tests"></a>
