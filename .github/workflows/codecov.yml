@@ -3,24 +3,33 @@ name: codecov
 on: [push, pull_request]
 
 jobs:
-  release:
-    name: ci
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        stability: [prefer-stable]
+
+    name: ${{ matrix.stability }} - ${{ matrix.os }}
+
     steps:
-      - name: 📚 checkout
-        uses: actions/checkout@v3
-      - name: 🟢 node
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
         with:
-          node-version: 18.12.1
-          registry-url: https://registry.npmjs.org/
-      - run: npm i -g pnpm
+          node-version: latest
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.1.1
       - run: pnpm install
-      - run: pnpm build
+      - run: cp .env.example .env
+      - run: pnpm test
       - run: pnpm coverage
 
-      - name: Code coverage
+      - name: Send code coverage
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: false
+          files: ./coverage/clover.xml
