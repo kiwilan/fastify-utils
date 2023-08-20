@@ -50,7 +50,8 @@
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "package": "rm -f kiwilan-fastify-utils-*.tgz ; pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils.tgz"
+    "package": "rm -f kiwilan-fastify-utils-*.tgz ; pnpm build ; pnpm pack ; cp kiwilan-fastify-utils-*.tgz ~/kiwilan-fastify-utils.tgz",
+    "release": "pnpm package && npm publish --access public"
   },
   "dependencies": {
     "@fastify/cors": "^8.3.0",
