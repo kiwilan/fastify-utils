@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@fastify/cors':
     specifier: ^8.3.0
@@ -15,8 +11,8 @@ dependencies:
     specifier: ^8.3.0
     version: 8.3.0
   '@kiwilan/filesystem':
-    specifier: ^0.0.18
-    version: 0.0.18
+    specifier: ^0.0.19
+    version: 0.0.19
   chalk:
     specifier: ^5.3.0
     version: 5.3.0
@@ -766,8 +762,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@kiwilan/filesystem@0.0.18:
-    resolution: {integrity: sha512-B6PYRcOdqmvPpSv7P8pH9NqduhzC3tds1gw+P5fsdIqBrehsjZtrNgmxYbSqde6RWk4PsKlOeL5cgmp5NncRRw==}
+  /@kiwilan/filesystem@0.0.19:
+    resolution: {integrity: sha512-GKbkxekPkoOTWD/xVUcWMioWcYAbv1ptodmSOpYa6wZFEjXrMx/J5fuwAJQ6IiQwRx8DsAE4tnPNs0153phnJw==}
     dependencies:
       glob: 10.3.3
       md5: 2.3.0
@@ -4075,3 +4071,7 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
